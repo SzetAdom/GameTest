@@ -11,11 +11,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
+
+@WebServlet(name = "UserController", urlPatterns = {"/UserController"})
 public class UserController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -23,27 +26,29 @@ public class UserController extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             if (request.getParameter("task").equals("login")) {
-                JSONObject returnValue = new JSONObject();
+                JSONObject result = new JSONObject();
                 if (!request.getParameter("key").isEmpty()) {
                     try {
                         String key = request.getParameter("key");
 
                         Integer loginResult = UserService.getUserByKey(key);
                         Boolean isAdminResult = UserService.isUserAdmin(loginResult);
+                        
+/*
+ *  TO ÁDÁM: a json objectet írasd ki, ne annak a stringjét :)
+ *  ezt már kijavítottam, a többit nem néztem meg (by Roland)
+ */
 
-                        JSONObject result = new JSONObject();
                         result.put("id", loginResult.toString());
                         result.put("isAdmin", isAdminResult.toString());
-                        returnValue.put("result", result.toString());
-
                     } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásánál");
                     }
 
                 } else {
-                    returnValue.put("result", "A mezők nincsenek megfelelően kitöltve");
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
                 }
-                out.println(returnValue.toString());
+                out.println(result);
             }
 
             if (request.getParameter("task").equals("addUser")) {
@@ -64,7 +69,7 @@ public class UserController extends HttpServlet {
                 } else {
                     returnValue.put("result", "A mezők nincsenek megfelelően kitöltve");
                 }
-                out.println(returnValue.toString());
+                out.println(returnValue);
             }
 
             if (request.getParameter("task").equals("getUser")) {

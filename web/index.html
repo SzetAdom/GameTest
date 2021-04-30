@@ -9,8 +9,27 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+         
     </head>
-    <body>
-        
+    <body onload="getJoke()">     
+        <header class="header">
+                <p id="joke"></p>
+        </header>
+        <div class="login">
+            
+            <div>
+                <h1>Rate our games</h1>
+                <h4>Your opinion matters to us</h4>
+            </div>
+            <div class="login-input">
+                <label>Kód: </label>
+                <input id="passIN" type="text" name="pass" value="" />  
+                <br>
+                <input type="button" value="Bejelentkezés" name="submitPass" onclick="login()" />
+            </div>
+        </div>
     </body>
+    <script src="script.js"></script>
 </html>
