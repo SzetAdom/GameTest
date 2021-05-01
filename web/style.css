@@ -78,6 +78,10 @@ aside input{
     float: right;
     width: 85%;
 }
+.userMain{
+    float: right;
+    width: 85%;
+}
 table{
     margin-left: 25%;
     width: 50%;
@@ -173,4 +177,21 @@ table{
 }
 #priceIN{
     width: 45px;
+}
+#achievementsAdd ul{
+    margin-left: calc( (100% - 400px) / 2 );
+    margin-top: 100px;
+    list-style-type: none;
+    padding: 0;
+    width: 400px;
+}
+#achievementsAdd li{
+    text-align: center;
+    padding: 2px;
+}
+
+
+.achievementsAdd{
+    
+    display: none; 
 }
