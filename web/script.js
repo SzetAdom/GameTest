@@ -12,54 +12,41 @@ function login(){
             }
             else{
                 if(response.isAdmin === "true"){
-                    //alert("Admin vagy");
-                    callAdminPage(response.id);  
+                    //alert("Admin vagy");                     
                     localStorage.setItem("id", response.id);
                     localStorage.setItem("isAdmin", response.isAdmin);
+                    callAdminPage(); 
                 }
                 else{
                     //alert("Nem vagy admin");
-                    callUserPage(response.id);  
                     localStorage.setItem("id", response.id);
                     localStorage.setItem("isAdmin", response.isAdmin);
+                    callUserPage();
                 }
             }
             //console.log(response);
         },
         error: function(response){
+            clearLocalStorage();
             alert("Hiba történt az adatfeldolgozásban");
             console.log(response);
         }
     });
 }
 
-function callAdminPage(id){
-    //TODO
+//DONE, load admin page after login
+function callAdminPage(){
+    clearContent();
+    setupAdminAside();
+    chooseGame();
 }
 
-function callUserPage(id){
+function callUserPage(){
     //TODO 
 }
 
-//joke filler
-function getJoke(){
+//DONE, clear login data, on load and after log out
+function clearLocalStorage(){    
     localStorage.removeItem("id");
     localStorage.removeItem("isAdmin");
-    var xmlhttp = new XMLHttpRequest();
-    var url = "https://official-joke-api.appspot.com/jokes/programming/random";
-    
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
-    
-    xmlhttp.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
-            var myArr = JSON.parse(this.responseText);
-            //console.log(myArr);
-            document.getElementById("joke").innerHTML += 
-                    "<b>Daily joke: </b>" + 
-                    myArr[0].setup + " " + myArr[0].punchline;
-        }
-    };
 }
-
-

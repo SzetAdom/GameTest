@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>TODO supply a title</title>
@@ -14,22 +9,48 @@ and open the template in the editor.
          
     </head>
     <body onload="getJoke()">     
+        
         <header class="header">
                 <p id="joke"></p>
         </header>
-        <div class="login">
+        <div id="login">
             
             <div>
                 <h1>Rate our games</h1>
                 <h4>Your opinion matters to us</h4>
             </div>
             <div class="login-input">
-                <label>Kód: </label>
+                <label>Login code: </label>
                 <input id="passIN" type="text" name="pass" value="" />  
                 <br>
                 <input type="button" value="Bejelentkezés" name="submitPass" onclick="login()" />
             </div>
         </div>
+        <!-- NOTICE: DO NOT REMOVE IT
+        <aside id="adminAside">
+            <ul>
+                <li>
+                    <input type="button" value="Choose game" name="chooseGame" onclick="chooseGame()" />   
+                </li>
+                <li>
+                    <input type="button" value="Add new game" name="addNewGame" onclick="newGame()" />
+                </li>
+                <li>
+                    <input type="button" value="Choose Tester" name="chooseTester" onclick="chooseTester()" />
+                </li>
+                <li>
+                    <input type="button" value="Add new Tester/Admin" name="addNewTester" onclick="newTester()" />
+                </li>
+                <li>
+                    <input type="button" value="Check charts" name="checkCharts" onclick="alert('TODO')" />
+                </li>
+                <li>
+                    <input type="button" value="Log out" name="logOut" onclick="logOut()" />
+                </li>
+            </ul>
+        </aside>
+        -->        
     </body>
     <script src="script.js"></script>
+    <script src="htmlBuilder.js"></script>
 </html>
