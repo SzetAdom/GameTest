@@ -43,10 +43,23 @@ function callAdminPage(){
 
 function callUserPage(){
     //TODO 
+    clearContent();
+    setupUserAside();
+    addProgress();
+    
 }
 
 //DONE, clear login data, on load and after log out
 function clearLocalStorage(){    
     localStorage.removeItem("id");
     localStorage.removeItem("isAdmin");
+}
+function showLabel(){
+    
+   var x = document.getElementsByClassName("achievementsAdd");
+   var i;
+    for (i = 0; i < x.length; i++) {
+    x[i].style.display = "inline";
+   
+}
 }
