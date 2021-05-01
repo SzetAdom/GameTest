@@ -203,3 +203,103 @@ function newGame(){
         </main>
 `;
 }
+
+function setupUserAside(){
+    document.getElementsByTagName("body")[0].innerHTML += `
+        <aside id="userAside">
+            <ul>
+                <li>
+                    <input type="button" value="Add Progress" name="addProgress" onclick="addProgress()" />   
+                </li>
+                <li>
+                    <input type="button" value="Check progress" name="checkProgress" onclick="checkProgress()" />
+                </li>
+                <li>
+                    <input type="button" value="Log out" name="logOut" onclick="logOut()" />
+                </li>
+            </ul>
+        </aside>`;
+        
+}
+
+function addProgress(){
+    clearContent();
+    setupUserAside();
+    document.getElementsByTagName("body")[0].innerHTML += `
+         <main class='adminMain'>
+            <div id="newGame">
+                <h2>Add progress to the desired game</h2>
+                <ul>
+                    <li>
+                        <label>Game: </label> 
+                        <select name="games" id="games">
+                        <option disabled selected value> -- select an option -- </option>
+                        <option value="cargame2">Car Game 3</option>
+                        <option value="cargame3">Car Game 4</option>
+                        </select>
+                        <br/>
+                    </li>
+                    <li>
+                        <input type="button" value="Select" name="SelectGame" onclick="showLabel()" />
+                    </li>
+                    
+                    <li>
+                       <label class="achievementsAdd">Achievement: </label> 
+                        <select name="Achievements" class="achievementsAdd">
+                        <option disabled selected value> -- select an option -- </option>
+                        <option value="nagyongyors">Naagyon gyors</option>
+                        <option value="meggyorsabb">Méggyorsabb</option>
+                        </select>
+                        <br/>
+                    </li>
+                    <li>
+                        <input type="button" value="Add" name="AddGame" onclick="alert('Itt majd elmentődik')" class="achievementsAdd"/>
+                    </li>
+                    
+                </ul>
+            </div>
+        </main>
+`;
+}
+
+function checkProgress(){
+    clearContent();
+    setupUserAside();
+    document.getElementsByTagName("body")[0].innerHTML += `
+        <main class="userMain">
+
+            <div id="chooseGame">
+                <h2>This is your progress history so far:</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Game</td>
+                            <td>username</td>
+                            <td>First played</td>
+                            <td>Last played</td>
+                            <td>Total minutes</td>
+                        </tr>                        
+                    </thead>
+                    <tbody>
+                        <tr id="progressID"">
+                            <td>Car game 3</td>
+                            <td>Lajos</td>
+                            <td>2021-04-11</td>
+                            <td>2021-05-01</td>
+                            <td>69</td>
+                        </tr>  
+                        <tr id="progressID" ">
+                            <td>Car game 4</td>
+                            <td>Lajos2</td>
+                            <td>2020-11-31</td>
+                            <td>2021-01-11</td>
+                            <td>420</td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+`;
+}
+
