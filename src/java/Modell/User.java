@@ -1,28 +1,110 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Modell;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
-public class User {
+/**
+ *
+ * @author adams
+ */
+@Entity
+@Table(name = "user")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+    @NamedQuery(name = "User.findByUserId", query = "SELECT u FROM User u WHERE u.userId = :userId"),
+    @NamedQuery(name = "User.findByKey", query = "SELECT u FROM User u WHERE u.key = :key"),
+    @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
+    @NamedQuery(name = "User.findByBirthDate", query = "SELECT u FROM User u WHERE u.birthDate = :birthDate"),
+    @NamedQuery(name = "User.findByIsAdmin", query = "SELECT u FROM User u WHERE u.isAdmin = :isAdmin"),
+    @NamedQuery(name = "User.findByCreatedAt", query = "SELECT u FROM User u WHERE u.createdAt = :createdAt"),
+    @NamedQuery(name = "User.findByIsActive", query = "SELECT u FROM User u WHERE u.isActive = :isActive")})
+public class User implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "user_id")
     private Integer userId;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "key")
     private String key;
+    @Size(max = 255)
+    @Column(name = "username")
     private String username;
+    @Column(name = "birth_date")
+    @Temporal(TemporalType.DATE)
     private Date birthDate;
-    private Integer genderId;
+    @Column(name = "is_admin")
     private Boolean isAdmin;
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+    @Column(name = "is_active")
+    private Boolean isActive;
+    @OneToMany(mappedBy = "userId")
+    private Collection<Review> reviewCollection;
+    @OneToMany(mappedBy = "userId")
+    private Collection<AchievementUser> achievementUserCollection;
+    @JoinColumn(name = "gender_id", referencedColumnName = "gender_id")
+    @ManyToOne
+    private Gender genderId;
+    @OneToMany(mappedBy = "userId")
+    private Collection<Statistics> statisticsCollection;
 
-    public User(Integer userId, String key, String username, Date birthDate, Integer genderId, Boolean isAdmin) {
+    public User() {
+    }
+
+    public User(Integer userId) {
+        this.userId = userId;
+    }
+
+    public User(Integer userId, String key) {
+        this.userId = userId;
+        this.key = key;
+    }
+
+    public User(String key, Date birthDate, Gender gender, Boolean isAdmin) {
+        this.key = key;
+        this.birthDate = birthDate;
+        this.genderId = gender;
+        this.isAdmin = isAdmin;
+    }
+
+    public User(Integer userId, String key, String username, Date birthDate, Gender genderId, Boolean isAdmin) {
         this.userId = userId;
         this.key = key;
         this.username = username;
         this.birthDate = birthDate;
+        this.isAdmin = isAdmin;
         this.genderId = genderId;
-        this.isAdmin = isAdmin;
-    }
-
-    public User(String key, Boolean isAdmin) {
-        this.key = key;
-        this.isAdmin = isAdmin;
     }
 
     public Integer getUserId() {
@@ -57,20 +139,83 @@ public class User {
         this.birthDate = birthDate;
     }
 
-    public Integer getGenderId() {
-        return genderId;
-    }
-
-    public void setGenderId(Integer genderId) {
-        this.genderId = genderId;
-    }
-
     public Boolean getIsAdmin() {
         return isAdmin;
     }
 
     public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    @XmlTransient
+    public Collection<Review> getReviewCollection() {
+        return reviewCollection;
+    }
+
+    public void setReviewCollection(Collection<Review> reviewCollection) {
+        this.reviewCollection = reviewCollection;
+    }
+
+    @XmlTransient
+    public Collection<AchievementUser> getAchievementUserCollection() {
+        return achievementUserCollection;
+    }
+
+    public void setAchievementUserCollection(Collection<AchievementUser> achievementUserCollection) {
+        this.achievementUserCollection = achievementUserCollection;
+    }
+
+    public Gender getGenderId() {
+        return genderId;
+    }
+
+    public void setGenderId(Gender genderId) {
+        this.genderId = genderId;
+    }
+
+    @XmlTransient
+    public Collection<Statistics> getStatisticsCollection() {
+        return statisticsCollection;
+    }
+
+    public void setStatisticsCollection(Collection<Statistics> statisticsCollection) {
+        this.statisticsCollection = statisticsCollection;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (userId != null ? userId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof User)) {
+            return false;
+        }
+        User other = (User) object;
+        if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
+            return false;
+        }
+        return true;
     }
 
     @Override

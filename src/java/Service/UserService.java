@@ -14,7 +14,8 @@ public class UserService {
     }
 
     public static String addNewUser(User user) {
-        if (UserRepo.addNewUser(user)) {
+        System.out.println("addNewUser - userCreate ------------------------");
+        if (UserRepo.userCreate(user)) {
             return "Sikeres felhasználó hozzáadás!";
         } else {
             return "Sikertelen felhasználó hozzáadás!";
