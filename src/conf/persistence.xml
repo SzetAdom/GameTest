@@ -14,7 +14,7 @@
     <class>Modell.User</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://gametest.cysdrrilh8hn.us-east-2.rds.amazonaws.com:3306/gametest"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://gametest.cysdrrilh8hn.us-east-2.rds.amazonaws.com:3306/gametest?useSSL=false"/>
       <property name="javax.persistence.jdbc.user" value="gametest"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="gametest123!"/>
