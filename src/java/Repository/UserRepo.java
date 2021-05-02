@@ -28,10 +28,8 @@ public class UserRepo {
 
     public static boolean userCreate(User user) {
         try {
-            System.out.println("Checkpoint 0");
             EntityManager em = Database.getDbConn();
             StoredProcedureQuery spq = em.createStoredProcedureQuery("userCreate");
-            System.out.println("Checkpoint 1");
             if (user.getIsAdmin()) {
                 spq = em.createStoredProcedureQuery("userCreateAdmin");
             }
@@ -39,12 +37,12 @@ public class UserRepo {
             spq.registerStoredProcedureParameter("in_username", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("in_birth_date", Date.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("in_gender_id", Integer.class, ParameterMode.IN);
-            System.out.println("Checkpoint 2");
+
             spq.setParameter("in_username", user.getUsername());
             spq.setParameter("in_birth_date", user.getBirthDate());
-            spq.setParameter("in_gender_id", user.getGenderId());
-            System.out.println("Checkpoint 3");
+            spq.setParameter("in_gender_id", user.getGenderId().getGenderId());
             spq.execute();
+            System.out.println("Felhasználó sikeresen hozzáadva!");
             return true;
 
         } catch (Exception ex) {
