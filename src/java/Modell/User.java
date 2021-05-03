@@ -91,6 +91,13 @@ public class User implements Serializable {
         this.key = key;
     }
 
+    public User(Integer userId, String username, Date birthDate, Gender gender) {
+        this.userId = userId;
+        this.username = username;
+        this.birthDate = birthDate;
+        this.genderId = gender;
+    }
+
     public User(String username, Date birthDate, Gender gender, Boolean isAdmin) {
         this.username = username;
         this.birthDate = birthDate;

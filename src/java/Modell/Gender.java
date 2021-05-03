@@ -54,6 +54,11 @@ public class Gender implements Serializable {
         this.genderId = genderId;
     }
 
+    public Gender(Integer genderId, String nameOfGender) {
+        this.genderId = genderId;
+        this.nameOfGender = nameOfGender;
+    }
+
     public Integer getGenderId() {
         return genderId;
     }

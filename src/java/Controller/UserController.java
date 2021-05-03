@@ -100,13 +100,16 @@ public class UserController extends HttpServlet {
                 if (!request.getParameter("id").isEmpty()) {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
-                        String key = request.getParameter("key");
                         String username = request.getParameter("username");
                         Date birthDate = Date.valueOf(request.getParameter("birthDate"));
                         Gender gender = new Gender(Integer.parseInt(request.getParameter("genderId")));
-                        Boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
 
-                        User user = new User(id, key, username, birthDate, gender, isAdmin);
+                        System.out.println(id);
+                        System.out.println(username);
+                        System.out.println(birthDate);
+                        System.out.println(gender);
+
+                        User user = new User(id, username, birthDate, gender);
                         String serviceResultString = UserService.updateUser(user);
 
                         result.put("result", serviceResultString);
@@ -118,7 +121,90 @@ public class UserController extends HttpServlet {
                 } else {
                     result.put("result", "A mezők nincsenek megfelelően kitöltve");
                 }
-                out.println(result.toString());
+                out.println(result);
+            }
+
+            if (request.getParameter("task").equals("enableAdmin")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+
+                        result.put("result", UserService.enableAdmin(id));
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
+                }
+                out.println(result);
+            }
+
+            if (request.getParameter("task").equals("disableAdmin")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+
+                        result.put("result", UserService.disableAdmin(id));
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
+                }
+                out.println(result);
+            }
+
+            if (request.getParameter("task").equals("setUserActive")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+
+                        result.put("result", UserService.setUserActive(id));
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
+                }
+                out.println(result);
+            }
+
+            if (request.getParameter("task").equals("setUserInactive")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+
+                        result.put("result", UserService.setUserInactive(id));
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
+                }
+                out.println(result);
+            }
+
+            if (request.getParameter("task").equals("getAllUser")) {
+                JSONObject result = new JSONObject();
+                try {
+                    result.put("result", UserService.getAllUser());
+
+                } catch (Exception e) {
+                    System.out.println("Hiba a JSON adatok beolvasásakor!");
+                }
+                out.println(result);
             }
 
         }
