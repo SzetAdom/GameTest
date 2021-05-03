@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Modell.Gender;
 import Modell.User;
 import Service.UserService;
 import java.io.IOException;
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
-
 
 @WebServlet(name = "UserController", urlPatterns = {"/UserController"})
 public class UserController extends HttpServlet {
@@ -33,16 +33,11 @@ public class UserController extends HttpServlet {
 
                         Integer loginResult = UserService.getUserByKey(key);
                         Boolean isAdminResult = UserService.isUserAdmin(loginResult);
-                        
-/*
- *  TO ÁDÁM: a json objectet írasd ki, ne annak a stringjét :)
- *  ezt már kijavítottam, a többit nem néztem meg (by Roland)
- */
 
                         result.put("id", loginResult.toString());
                         result.put("isAdmin", isAdminResult.toString());
                     } catch (Exception e) {
-                        System.out.println("Hiba a JSON adatok beolvasásánál");
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
                     }
 
                 } else {
@@ -52,69 +47,78 @@ public class UserController extends HttpServlet {
             }
 
             if (request.getParameter("task").equals("addUser")) {
-                JSONObject returnValue = new JSONObject();
-                if (!request.getParameter("key").isEmpty() && !request.getParameter("isAdmin").isEmpty()) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("username").isEmpty()
+                        && !request.getParameter("birthDate").isEmpty()
+                        && !request.getParameter("genderId").isEmpty()) {
                     try {
-                        String key = request.getParameter("key");
-                        Boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
-                        User user = new User(key, isAdmin);
+                        String username = request.getParameter("username");
+                        Date birthDate = Date.valueOf(request.getParameter("birthDate"));
+                        Gender gender = new Gender(Integer.parseInt(request.getParameter("genderId")));
+                        Boolean isAdmin = false;
 
-                        String result = UserService.addNewUser(user);
-                        returnValue.put("result", result);
+                        if (!request.getParameter("isAdmin").isEmpty()) {
+                            isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+                        }
+
+                        User user = new User(username, birthDate, gender, isAdmin);
+
+                        String serviceResultString = UserService.addNewUser(user);
+                        result.put("result", serviceResultString);
 
                     } catch (Exception e) {
-                        System.out.println("Hiba a JSON adatok beolvasásánál");
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
                     }
 
                 } else {
-                    returnValue.put("result", "A mezők nincsenek megfelelően kitöltve");
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
                 }
-                out.println(returnValue);
+                out.println(result);
             }
 
             if (request.getParameter("task").equals("getUser")) {
-                JSONObject returnValue = new JSONObject();
+                JSONObject result = new JSONObject();
                 if (!request.getParameter("id").isEmpty()) {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
 
                         User user = UserService.getUser(id);
-                        returnValue.put("result", user.toString());
+                        result.put("result", user.toString());
 
                     } catch (Exception e) {
-                        System.out.println("Hiba a JSON adatok beolvasásánál");
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
                     }
 
                 } else {
-                    returnValue.put("result", "A mezők nincsenek megfelelően kitöltve");
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
                 }
-                out.println(returnValue.toString());
+                out.println(result);
             }
 
             if (request.getParameter("task").equals("updateUser")) {
-                JSONObject returnValue = new JSONObject();
+                JSONObject result = new JSONObject();
                 if (!request.getParameter("id").isEmpty()) {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
                         String key = request.getParameter("key");
                         String username = request.getParameter("username");
                         Date birthDate = Date.valueOf(request.getParameter("birthDate"));
-                        Integer genderId = Integer.parseInt(request.getParameter("genderId"));
+                        Gender gender = new Gender(Integer.parseInt(request.getParameter("genderId")));
                         Boolean isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
 
-                        User user = new User(id, key, username, birthDate, genderId, isAdmin);
-                        String result = UserService.updateUser(user);
+                        User user = new User(id, key, username, birthDate, gender, isAdmin);
+                        String serviceResultString = UserService.updateUser(user);
 
-                        returnValue.put("result", result);
+                        result.put("result", serviceResultString);
 
                     } catch (Exception e) {
-                        System.out.println("Hiba a JSON adatok beolvasásánál");
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
                     }
 
                 } else {
-                    returnValue.put("result", "A mezők nincsenek megfelelően kitöltve");
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
                 }
-                out.println(returnValue.toString());
+                out.println(result.toString());
             }
 
         }
