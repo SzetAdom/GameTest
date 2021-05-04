@@ -24,6 +24,10 @@
         <servlet-name>GameController</servlet-name>
         <servlet-class>Controller.GameController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GenreController</servlet-name>
+        <servlet-class>Controller.GenreController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/UserController</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>GameController</servlet-name>
         <url-pattern>/GameController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GenreController</servlet-name>
+        <url-pattern>/GenreController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

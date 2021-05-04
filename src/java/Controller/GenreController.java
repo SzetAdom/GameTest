@@ -5,8 +5,8 @@
  */
 package Controller;
 
-import Modell.Gender;
-import Service.GenderService;
+import Modell.Genre;
+import Service.GenreService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -16,20 +16,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
-public class GenderController extends HttpServlet {
+public class GenreController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            if (request.getParameter("task").equals("addGender")) {
+
+            if (request.getParameter("task").equals("addGenre")) {
                 JSONObject result = new JSONObject();
                 if (!request.getParameter("name").isEmpty()) {
                     try {
-                        String nameOfGender = request.getParameter("name");
+                        String name = request.getParameter("name");
 
-                        Boolean serviceResult = GenderService.createGender(nameOfGender);
+                        Boolean serviceResult = GenreService.addGenre(name);
                         result.put("result", serviceResult);
 
                     } catch (Exception e) {
@@ -42,7 +43,7 @@ public class GenderController extends HttpServlet {
                 out.println(result);
             }
 
-            if (request.getParameter("task").equals("genderUpdate")) {
+            if (request.getParameter("task").equals("updateGenre")) {
                 JSONObject result = new JSONObject();
                 if (!request.getParameter("id").isEmpty()
                         && !request.getParameter("name").isEmpty()) {
@@ -50,9 +51,9 @@ public class GenderController extends HttpServlet {
                         Integer id = Integer.parseInt(request.getParameter("id"));
                         String name = request.getParameter("name");
 
-                        Gender gender = new Gender(id, name);
-                        Boolean serviceResult = GenderService.updateGender(gender);
+                        Genre genre = new Genre(id, name);
 
+                        Boolean serviceResult = GenreService.updateGenre(genre);
                         result.put("result", serviceResult);
 
                     } catch (Exception e) {
@@ -65,10 +66,10 @@ public class GenderController extends HttpServlet {
                 out.println(result);
             }
 
-            if (request.getParameter("task").equals("getAllGender")) {
+            if (request.getParameter("task").equals("getAllGenre")) {
                 JSONObject result = new JSONObject();
                 try {
-                    List<Gender> serviceResult = GenderService.getAllGender();
+                    List<Genre> serviceResult = GenreService.getAllGenre();
                     result.put("result", serviceResult);
 
                 } catch (Exception e) {
@@ -77,13 +78,13 @@ public class GenderController extends HttpServlet {
                 out.println(result);
             }
 
-            if (request.getParameter("task").equals("setGenderActive")) {
+            if (request.getParameter("task").equals("setGenreActive")) {
                 JSONObject result = new JSONObject();
                 if (!request.getParameter("id").isEmpty()) {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
 
-                        result.put("result", GenderService.setGenderActive(id));
+                        result.put("result", GenreService.setGenreActive(id));
 
                     } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásakor!");
@@ -95,13 +96,13 @@ public class GenderController extends HttpServlet {
                 out.println(result);
             }
 
-            if (request.getParameter("task").equals("setGenderInactive")) {
+            if (request.getParameter("task").equals("setGenreInactive")) {
                 JSONObject result = new JSONObject();
                 if (!request.getParameter("id").isEmpty()) {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
 
-                        result.put("result", GenderService.setGenderInactive(id));
+                        result.put("result", GenreService.setGenreInactive(id));
 
                     } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásakor!");

@@ -58,6 +58,11 @@ public class Genre implements Serializable {
         this.descriptionOfGenre = descriptionOfGenre;
     }
 
+    public Genre(Integer id, String name) {
+        this.genreId = id;
+        this.descriptionOfGenre = name;
+    }
+
     public Integer getGenreId() {
         return genreId;
     }
@@ -113,7 +118,9 @@ public class Genre implements Serializable {
 
     @Override
     public String toString() {
-        return "Modell.Genre[ genreId=" + genreId + " ]";
+        return "id: " + genreId
+                + ", description: " + descriptionOfGenre;
+
     }
 
 }
