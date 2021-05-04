@@ -119,9 +119,11 @@ table{
 }
 
 /*choose player part*/
-
+#chooseTester .true{
+    background-color: crimson;
+}
 #chooseTester td{
-    width: 25%;
+    width: 20%;
     text-align: center;
     padding: 0;
     padding-top: 12px;

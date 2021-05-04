@@ -75,7 +75,7 @@ function setupAdminAside(){
                     <input type="button" value="Add new game" name="addNewGame" onclick="newGame()" />
                 </li>
                 <li>
-                    <input type="button" value="Choose Tester" name="chooseTester" onclick="chooseTester()" />
+                    <input type="button" value="Choose Tester" name="chooseTester" onclick="chooseTester(0)" />
                 </li>
                 <li>
                     <input type="button" value="Add new Tester/Admin" name="addNewTester" onclick="newTester()" />
@@ -127,7 +127,6 @@ function chooseGame(countIn){
                         <input type="button" id="next" onclick="chooseGame(`+(count+10)+`)" value="Next 10"/>
                     </div>
                 </main>`;
-            console.log(response);
             for(var i = count; i<count + 10; i++){
                 document.getElementsByTagName("tbody")[0].innerHTML += 
                 `<tr id="`+response.result[i].gameId+`" onclick="alert('TODO')">
@@ -136,8 +135,6 @@ function chooseGame(countIn){
                     <td>` + response.result[i].releaseDate + `</td>
                     <td>` + response.result[i].price + `</td>
                 </tr>`;
-                    
-                console.log(response.result[i].gameId + response.result[i].dev);
             }
         },
         error: function(response){
@@ -149,10 +146,49 @@ function chooseGame(countIn){
 
 
 //TODO: fill it with data
-function chooseTester(){
+function chooseTester(countIn){
+    if(countIn < 0) var count = 0;
+    else var count = countIn;
+    var max = 0;
     clearContent();
     setupAdminAside();
-    document.getElementsByTagName("body")[0].innerHTML += `
+    var request = {"task" : "getAllUser"}
+    $.ajax({
+        url:"UserController",
+        type:"POST",
+        data: request,
+        success: function(response){
+            if(count + 75 > response.result.length) count = response.result.length - 60;
+            document.getElementsByTagName("body")[0].innerHTML += `
+        <main class="adminMain">
+            <div id="chooseTester">
+                <h2>Choose a tester to check out his/her overall statistics</h2>
+                <table>
+                    <tbody>
+                        
+                    </tbody>
+                </table>                
+            </div> 
+            <input type="button" id="last" onclick="chooseTester(`+(count-60)+`)" value="Previous 60"/>
+            <input type="button" id="next" onclick="chooseTester(`+(count+60)+`)" value="Next 60"/>
+        </main>
+        `;
+        for(var i = 0; i < 12; i++){ 
+            document.getElementsByTagName("tbody")[0].innerHTML += "<tr></tr>";
+            for(var j = 0; j < 5;j++){
+                document.getElementsByTagName("tr")[i].innerHTML 
+                += `<td id="`+response.result[count].userId+`" class="`+response.result[count].isAdmin+`" onclick="alert(`+response.result[count].userId+`)">`+response.result[count].username+`</td>`;
+                count++;
+            }
+        }
+            
+        },
+        error: function(response){
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    });
+    /*document.getElementsByTagName("body")[0].innerHTML += `
         <main class="adminMain">
             <div id="chooseTester">
                 <h2>Choose a tester to check out his/her overall statistics</h2>
@@ -170,7 +206,7 @@ function chooseTester(){
                 </table>                
             </div>            
         </main>
-`;
+`;*/
 }
 
 //TODO: connect to db
