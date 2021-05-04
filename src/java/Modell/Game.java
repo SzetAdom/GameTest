@@ -70,6 +70,8 @@ public class Game implements Serializable {
     @OneToMany(mappedBy = "gameId")
     private Collection<Statistics> statisticsCollection;
 
+    private String genre;
+
     public Game() {
     }
 
@@ -80,6 +82,24 @@ public class Game implements Serializable {
     public Game(Integer gameId, String name) {
         this.gameId = gameId;
         this.name = name;
+    }
+
+    public Game(String name, String description, String dev, java.sql.Date releaseDate, Integer price) {
+        this.name = name;
+        this.descriptionOfGame = description;
+        this.dev = dev;
+        this.releaseDate = releaseDate;
+        this.price = price;
+    }
+
+    public Game(Integer gameId, String name, String description, String dev, java.sql.Date releaseDate, Integer price, Genre genre) {
+        this.gameId = gameId;
+        this.name = name;
+        this.descriptionOfGame = description;
+        this.dev = dev;
+        this.releaseDate = releaseDate;
+        this.price = price;
+        this.genre = genre.getDescriptionOfGenre();
     }
 
     public Integer getGameId() {
@@ -128,6 +148,14 @@ public class Game implements Serializable {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public Boolean getIsActive() {
@@ -196,7 +224,13 @@ public class Game implements Serializable {
 
     @Override
     public String toString() {
-        return "Modell.Game[ gameId=" + gameId + " ]";
+        return "id: " + gameId
+                + ", name: " + name
+                + ", description: " + descriptionOfGame
+                + ", dev: " + dev
+                + ", releaseDate: " + releaseDate
+                + ", price: " + price
+                + ", genre: " + genre;
     }
 
 }

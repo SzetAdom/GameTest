@@ -20,6 +20,10 @@
         <servlet-name>AchievementUserController</servlet-name>
         <servlet-class>Controller.AchievementUserController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GameController</servlet-name>
+        <servlet-class>Controller.GameController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/UserController</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>AchievementUserController</servlet-name>
         <url-pattern>/AchievementUserController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GameController</servlet-name>
+        <url-pattern>/GameController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

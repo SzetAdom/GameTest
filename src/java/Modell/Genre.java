@@ -54,6 +54,10 @@ public class Genre implements Serializable {
         this.genreId = genreId;
     }
 
+    public Genre(String descriptionOfGenre) {
+        this.descriptionOfGenre = descriptionOfGenre;
+    }
+
     public Integer getGenreId() {
         return genreId;
     }

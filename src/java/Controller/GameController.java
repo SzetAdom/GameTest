@@ -5,31 +5,41 @@
  */
 package Controller;
 
-import Modell.Gender;
-import Service.GenderService;
+import Modell.Game;
+import Service.GameService;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
-public class GenderController extends HttpServlet {
+public class GameController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            if (request.getParameter("task").equals("genderCreate")) {
-                JSONObject result = new JSONObject();
-                if (!request.getParameter("name").isEmpty()) {
-                    try {
-                        String nameOfGender = request.getParameter("name");
 
-                        Boolean serviceResult = GenderService.createGender(nameOfGender);
+            if (request.getParameter("task").equals("gameCreate")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("name").isEmpty()
+                        && !request.getParameter("description").isEmpty()
+                        && !request.getParameter("dev").isEmpty()
+                        && !request.getParameter("releaseDate").isEmpty()
+                        && !request.getParameter("price").isEmpty()) {
+                    try {
+                        String name = request.getParameter("name");
+                        String description = request.getParameter("description");
+                        String dev = request.getParameter("dev");
+                        Date releaseDate = Date.valueOf(request.getParameter("releaseDate"));
+                        Integer price = Integer.parseInt(request.getParameter("price"));
+
+                        Game game = new Game(name, description, dev, releaseDate, price);
+                        Boolean serviceResult = GameService.gameCreate(game);
                         result.put("result", serviceResult);
 
                     } catch (Exception e) {
@@ -42,18 +52,14 @@ public class GenderController extends HttpServlet {
                 out.println(result);
             }
 
-            if (request.getParameter("task").equals("genderUpdate")) {
+            if (request.getParameter("task").equals("getGame")) {
                 JSONObject result = new JSONObject();
-                if (!request.getParameter("id").isEmpty()
-                        && !request.getParameter("name").isEmpty()) {
+                if (!request.getParameter("id").isEmpty()) {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
-                        String name = request.getParameter("name");
 
-                        Gender gender = new Gender(id, name);
-                        Boolean serviceResult = GenderService.updateGender(gender);
-
-                        result.put("result", serviceResult);
+                        Game game = GameService.getGame(id);
+                        result.put("result", game.toString());
 
                     } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásakor!");
@@ -65,11 +71,10 @@ public class GenderController extends HttpServlet {
                 out.println(result);
             }
 
-            if (request.getParameter("task").equals("getAllGender")) {
+            if (request.getParameter("task").equals("getAllGame")) {
                 JSONObject result = new JSONObject();
                 try {
-                    List<Gender> serviceResult = GenderService.getAllGender();
-                    result.put("result", serviceResult);
+                    result.put("result", GameService.getAllGame());
 
                 } catch (Exception e) {
                     System.out.println("Hiba a JSON adatok beolvasásakor!");
@@ -77,13 +82,23 @@ public class GenderController extends HttpServlet {
                 out.println(result);
             }
 
-            if (request.getParameter("task").equals("setGenderActive")) {
+            if (request.getParameter("task").equals("updateGame")) {
                 JSONObject result = new JSONObject();
-                if (!request.getParameter("id").isEmpty()) {
+                if (!request.getParameter("name").isEmpty()
+                        && !request.getParameter("description").isEmpty()
+                        && !request.getParameter("dev").isEmpty()
+                        && !request.getParameter("releaseDate").isEmpty()
+                        && !request.getParameter("price").isEmpty()) {
                     try {
-                        Integer id = Integer.parseInt(request.getParameter("id"));
+                        String name = request.getParameter("name");
+                        String description = request.getParameter("description");
+                        String dev = request.getParameter("dev");
+                        Date releaseDate = Date.valueOf(request.getParameter("releaseDate"));
+                        Integer price = Integer.parseInt(request.getParameter("price"));
 
-                        result.put("result", GenderService.setGenderActive(id));
+                        Game game = new Game(name, description, dev, releaseDate, price);
+                        Boolean serviceResult = GameService.updateGame(game);
+                        result.put("result", serviceResult);
 
                     } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásakor!");
@@ -95,13 +110,13 @@ public class GenderController extends HttpServlet {
                 out.println(result);
             }
 
-            if (request.getParameter("task").equals("setGenderInactive")) {
+            if (request.getParameter("task").equals("setGameActive")) {
                 JSONObject result = new JSONObject();
                 if (!request.getParameter("id").isEmpty()) {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
 
-                        result.put("result", GenderService.setGenderInactive(id));
+                        result.put("result", GameService.setGameActive(id));
 
                     } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásakor!");
@@ -112,6 +127,25 @@ public class GenderController extends HttpServlet {
                 }
                 out.println(result);
             }
+
+            if (request.getParameter("task").equals("setGameInactive")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+
+                        result.put("result", GameService.setGamInactive(id));
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
+                }
+                out.println(result);
+            }
+
         } catch (Exception ex) {
             System.out.println("Hiányos mezők");
         }
