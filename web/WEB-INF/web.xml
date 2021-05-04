@@ -8,6 +8,18 @@
         <servlet-name>GenderController</servlet-name>
         <servlet-class>Controller.GenderController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AchievementController</servlet-name>
+        <servlet-class>Controller.AchievementController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AchievementTypeController</servlet-name>
+        <servlet-class>Controller.AchievementTypeController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AchievementUserController</servlet-name>
+        <servlet-class>Controller.AchievementUserController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/UserController</url-pattern>
@@ -15,6 +27,18 @@
     <servlet-mapping>
         <servlet-name>GenderController</servlet-name>
         <url-pattern>/GenderController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AchievementController</servlet-name>
+        <url-pattern>/AchievementController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AchievementTypeController</servlet-name>
+        <url-pattern>/AchievementTypeController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AchievementUserController</servlet-name>
+        <url-pattern>/AchievementUserController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -54,6 +54,15 @@ public class AchievementType implements Serializable {
         this.achievementTypeId = achievementTypeId;
     }
 
+    public AchievementType(String nameOfAchievementType) {
+        this.nameOfAchievementType = nameOfAchievementType;
+    }
+
+    public AchievementType(Integer achiTypeId, String name) {
+        this.achievementTypeId = achiTypeId;
+        this.nameOfAchievementType = name;
+    }
+
     public Integer getAchievementTypeId() {
         return achievementTypeId;
     }
@@ -109,7 +118,8 @@ public class AchievementType implements Serializable {
 
     @Override
     public String toString() {
-        return "Modell.AchievementType[ achievementTypeId=" + achievementTypeId + " ]";
+        return "id: " + achievementTypeId
+                + ", name: " + nameOfAchievementType;
     }
 
 }

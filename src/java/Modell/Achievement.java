@@ -67,6 +67,40 @@ public class Achievement implements Serializable {
         this.achievementId = achievementId;
     }
 
+    public Achievement(Integer achievementId, Integer gameId, String description, Integer prerequisite, AchievementType type) {
+        this.achievementId = achievementId;
+        this.gameId = new Game();
+        this.gameId.setGameId(gameId);
+        this.descriptionOfAchievment = description;
+        this.prerequisite = new Achievement();
+        this.prerequisite.setAchievementId(prerequisite);
+        this.achievementType = type;
+
+    }
+
+    public Achievement(Integer achievementId, Integer gameId, String description, Integer prerequisite, Integer typeId) {
+        this.achievementId = achievementId;
+        this.gameId = new Game();
+        this.gameId.setGameId(gameId);
+        this.descriptionOfAchievment = description;
+        this.prerequisite = new Achievement();
+        this.prerequisite.setAchievementId(prerequisite);
+        this.achievementType = new AchievementType();
+        this.achievementType.setAchievementTypeId(typeId);
+
+    }
+
+    public Achievement(Integer gameId, String description, Integer prerequisite, Integer typeId) {
+        this.gameId = new Game();
+        this.gameId.setGameId(gameId);
+        this.descriptionOfAchievment = description;
+        this.prerequisite = new Achievement();
+        this.prerequisite.setAchievementId(prerequisite);
+        this.achievementType = new AchievementType();
+        this.achievementType.setAchievementTypeId(typeId);
+
+    }
+
     public Integer getAchievementId() {
         return achievementId;
     }
@@ -155,7 +189,11 @@ public class Achievement implements Serializable {
 
     @Override
     public String toString() {
-        return "Modell.Achievement[ achievementId=" + achievementId + " ]";
+        return "id: " + achievementId
+                + ", game: " + gameId.toString()
+                + ", description: " + descriptionOfAchievment
+                + ", prerequisite: " + prerequisite
+                + ", type: " + achievementType.toString();
     }
 
 }
