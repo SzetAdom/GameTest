@@ -81,7 +81,7 @@ function setupAdminAside(){
                     <input type="button" value="Add new Tester/Admin" name="addNewTester" onclick="newTester()" />
                 </li>
                 <li>
-                    <input type="button" value="Check charts" name="checkCharts" onclick="alert('TODO')" />
+                    <input type="button" value="Check charts" name="checkCharts" onclick="checkCharts()" />
                 </li>
                 <li>
                     <input type="button" value="Log out" name="logOut" onclick="logOut()" />
@@ -269,6 +269,44 @@ function newGame(){
         </main>
 `;
 }
+
+function checkCharts(){
+    clearContent();
+    setupAdminAside();
+    const body = document.querySelector("body");
+    
+    const main = document.createElement("main");
+    main.class = "adminMain";
+    body.append(main);
+    
+    const div = document.createElement("div");
+    div.id = "charts";
+    main.append(div);
+    
+    const title = document.createElement("h2");
+    title.textContent = "Charts";
+    div.append(title);
+    
+    const plot1 = document.createElement("div");
+    plot1.id = "plot1"
+    div.append(plot1)
+    const data = [{
+        x: [1,2,3,4,5],
+        y: [30,60,80,140,90],
+        type: 'bar',
+        
+        
+      }
+    ];
+    const layout = {
+        height: "5%",
+        width : "10%"
+             
+    }
+
+    Plotly.newPlot('plot1', data, layout);
+}
+
 
 function setupUserAside(){
     document.getElementsByTagName("body")[0].innerHTML += `
