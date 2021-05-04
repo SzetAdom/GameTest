@@ -198,13 +198,21 @@ table{
 }
 
 /* charts*/
+#adminChartsMain{
+    height: 95%;
+}
+#charts{
+    height: 100%;
+    margin-left: 15%;
+}
 #charts h2{
     text-align: center;
     width: 100%;
-    margin-top: 180px;
+    padding-top: 50px;
 }
-#charts{
-    margin-left: 15%
+#charts table{
+    margin-left: auto;
+    margin-right: auto;
 }
 
 

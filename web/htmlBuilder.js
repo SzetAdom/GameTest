@@ -276,7 +276,7 @@ function checkCharts(){
     const body = document.querySelector("body");
     
     const main = document.createElement("main");
-    main.class = "adminMain";
+    main.id = "adminChartsMain";
     body.append(main);
     
     const div = document.createElement("div");
@@ -287,9 +287,30 @@ function checkCharts(){
     title.textContent = "Charts";
     div.append(title);
     
+    const table = document.createElement("table");
+    div.append(table)
+    const tr1 = document.createElement("tr");
+    const td1 = document.createElement("td");
+    const td2 = document.createElement("td");
+    tr1.append(td1, td2)
+    const tr2 = document.createElement("tr");
+    const td3 = document.createElement("td");
+    const td4 = document.createElement("td");
+    tr2.append(td3, td4)
+    table.append(tr1,tr2)
+    
     const plot1 = document.createElement("div");
     plot1.id = "plot1"
-    div.append(plot1)
+    td1.append(plot1)
+    const plot2 = document.createElement("div");
+    plot2.id = "plot2"
+    td2.append(plot2)
+    const plot3 = document.createElement("div");
+    plot3.id = "plot3"
+    td3.append(plot3)
+    const plot4 = document.createElement("div");
+    plot4.id = "plot4"
+    td4.append(plot4)
     const data = [{
         x: [1,2,3,4,5],
         y: [30,60,80,140,90],
@@ -299,12 +320,17 @@ function checkCharts(){
       }
     ];
     const layout = {
-        height: "5%",
-        width : "10%"
+        width: 600,
+        height: 350,
+        margin: 0
              
-    }
+    };
 
     Plotly.newPlot('plot1', data, layout);
+    Plotly.newPlot('plot2', data, layout);
+    Plotly.newPlot('plot3', data, layout);
+    Plotly.newPlot('plot4', data, layout);
+    
 }
 
 
