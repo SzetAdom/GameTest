@@ -17,11 +17,7 @@ public class UserService {
     public static String addNewUser(User user) {
         System.out.println("------------------------");
         System.out.println("addNewUser");
-        if (UserRepo.userCreate(user)) {
-            return "Sikeres felhasználó hozzáadás!";
-        } else {
-            return "Sikertelen felhasználó hozzáadás!";
-        }
+        return UserRepo.userCreate(user);
     }
 
     public static User getUser(Integer id) {

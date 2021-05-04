@@ -58,7 +58,7 @@ function setupLogin(){
                 <label>Login code: </label>
                 <input id="passIN" type="text" name="pass" value="" />  
                 <br>
-                <input type="button" value="Bejelentkezés" name="submitPass" onclick="login()" />
+                <input type="button" value="Log in" name="submitPass" onclick="login()" />
             </div>
         </div>`;
 }
@@ -96,6 +96,19 @@ function setupAdminAside(){
 function chooseGame(){
     clearContent();
     setupAdminAside();
+    var request = {"task" : "getAllGame"};
+    $.ajax({
+        url:"GameController",
+        type:"POST",
+        data: request,
+        succes: function(response){
+            alert("TODO");
+        },
+        error: function(response){
+            alert("A problem has occured");
+            console.log(response);
+        }
+    });
     document.getElementsByTagName("body")[0].innerHTML += `
         <main class="adminMain">
             <div id="chooseGame">
@@ -157,7 +170,7 @@ function chooseTester(){
 `;
 }
 
-//TODO: connect to db
+//DONE
 function newTester(){
     clearContent();
     setupAdminAside();
@@ -167,10 +180,10 @@ function newTester(){
                 <h2>Register new Tester or create a new Admin</h2>
                 <ul>
                     <li>
-                        <input type="button" value="Create new user" name="newUser" onclick="alert('TODO')" />
+                        <input type="button" value="Create new user" name="newUser" onclick="createUser(false)" />
                     </li>
                     <li>
-                        <input type="button" value="Create new admin" name="newAdmin" onclick="alert('TODO')" />
+                        <input type="button" value="Create new admin" name="newAdmin" onclick="createUser(true)" />
                     </li>
                 </ul>
             </div>
