@@ -8,6 +8,7 @@ public class Database {
 
     public static EntityManager getDbConn() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-        return emf.createEntityManager();
+        EntityManager em = emf.createEntityManager();
+        return em;
     }
 }

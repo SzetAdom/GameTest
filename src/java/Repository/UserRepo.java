@@ -7,230 +7,349 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.ParameterMode;
+import javax.persistence.Persistence;
 import javax.persistence.StoredProcedureQuery;
 
 public class UserRepo {
 
     public static Integer getUserByKey(String key) {
         try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("Login");
-            spq.registerStoredProcedureParameter("in_key", String.class, ParameterMode.IN);
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("Login");
+                spq.registerStoredProcedureParameter("in_key", String.class, ParameterMode.IN);
 
-            spq.setParameter("in_key", key);
+                spq.setParameter("in_key", key);
 
-            List<Object[]> userIds = spq.getResultList();
-            int id = 0;
-            for (Object[] currId : userIds) {
-                id = Integer.parseInt(currId[0].toString());
-                System.out.println("Id megtalálva!");
+                List<Object[]> userIds = spq.getResultList();
+                int id = 0;
+                for (Object[] currId : userIds) {
+                    id = Integer.parseInt(currId[0].toString());
+                    System.out.println("Id megtalálva!");
+                }
+
+                em.close();
+                emf.close();
+                return id;
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("getUserByKey hiba! - " + ex.getMessage());
+                return 0;
             }
-            return id;
-        } catch (Exception ex) {
-            System.out.println("getUserByKey hiba! - " + ex.getMessage());
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
             return 0;
         }
+
     }
 
     public static Boolean isUserAdmin(Integer id) {
         try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("userIsAdmin");
-            spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("userIsAdmin");
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
 
-            spq.setParameter("in_id", id);
+                spq.setParameter("in_id", id);
 
-            List<Object[]> userIsAdminObjectList = spq.getResultList();
-            Boolean isAdmin = false;
-            for (Object[] userIsAdminObject : userIsAdminObjectList) {
-                isAdmin = Boolean.parseBoolean(userIsAdminObject[0].toString());
-                System.out.println("Admin jog lekérdezve!");
+                List<Object[]> userIsAdminObjectList = spq.getResultList();
+                Boolean isAdmin = false;
+                for (Object[] userIsAdminObject : userIsAdminObjectList) {
+                    isAdmin = Boolean.parseBoolean(userIsAdminObject[0].toString());
+                    System.out.println("Admin jog lekérdezve!");
+                }
+                em.close();
+                emf.close();
+                return isAdmin;
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("getUserByKey hiba! - " + ex.getMessage());
+                return null;
             }
-            return isAdmin;
-        } catch (Exception ex) {
-            System.out.println("getUserByKey hiba! - " + ex.getMessage());
-            return null;
-        }
-    }
-
-    public static boolean userCreate(User user) {
-        try {
-            EntityManager em = Database.getDbConn();
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("userCreate");
-            if (user.getIsAdmin()) {
-                spq = em.createStoredProcedureQuery("userCreateAdmin");
-            }
-
-            spq.registerStoredProcedureParameter("in_username", String.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("in_birth_date", Date.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("in_gender_id", Integer.class, ParameterMode.IN);
-
-            spq.setParameter("in_username", user.getUsername());
-            spq.setParameter("in_birth_date", user.getBirthDate());
-            spq.setParameter("in_gender_id", user.getGenderId().getGenderId());
-            spq.execute();
-            System.out.println("Felhasználó sikeresen hozzáadva!");
-            return true;
-
-        } catch (Exception ex) {
-            System.out.println("userAdd Hiba! - " + ex.getMessage());
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
             return false;
         }
+
+    }
+
+    public static Boolean userCreate(User user) {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = Database.getDbConn();
+            try {
+
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("userCreate");
+                if (user.getIsAdmin()) {
+                    spq = em.createStoredProcedureQuery("userCreateAdmin");
+                }
+
+                spq.registerStoredProcedureParameter("in_username", String.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_birth_date", Date.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_gender_id", Integer.class, ParameterMode.IN);
+
+                spq.setParameter("in_username", user.getUsername());
+                spq.setParameter("in_birth_date", user.getBirthDate());
+                spq.setParameter("in_gender_id", user.getGenderId().getGenderId());
+                spq.execute();
+
+                em.close();
+                emf.close();
+                System.out.println("Felhasználó sikeresen hozzáadva!");
+                return true;
+
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("userAdd Hiba! - " + ex.getMessage());
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return false;
+        }
+
     }
 
     public static User getUser(Integer id) {
         try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("userGet");
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("userGet");
 
-            spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
-            spq.setParameter("in_id", id);
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+                spq.setParameter("in_id", id);
 
-            List<Object[]> userObjectList = spq.getResultList();
-            User user = null;
-            for (Object[] userObject : userObjectList) {
-                Integer userId = Integer.parseInt(userObject[0].toString());
-                String key = userObject[1].toString();
-                String username = userObject[2].toString();
-                Date birhtDate = Date.valueOf(userObject[3].toString());
-                Gender gender = new Gender(Integer.parseInt(userObject[4].toString()), userObject[5].toString());
-                Boolean isAdmin = Boolean.parseBoolean(userObject[6].toString());
+                List<Object[]> userObjectList = spq.getResultList();
+                User user = null;
+                for (Object[] userObject : userObjectList) {
+                    Integer userId = Integer.parseInt(userObject[0].toString());
+                    String key = userObject[1].toString();
+                    String username = userObject[2].toString();
+                    Date birhtDate = Date.valueOf(userObject[3].toString());
+                    Gender gender = new Gender(Integer.parseInt(userObject[4].toString()), userObject[5].toString());
+                    Boolean isAdmin = Boolean.parseBoolean(userObject[6].toString());
 
-                user = new User(id, key, username, birhtDate, gender, isAdmin);
+                    user = new User(id, key, username, birhtDate, gender, isAdmin);
+                }
+
+                em.close();
+                emf.close();
+                System.out.println("User lekérdezve!");
+                return user;
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("userGet hiba! - " + ex.getMessage());
+                return null;
             }
-            System.out.println("User lekérdezve!");
-            return user;
-        } catch (Exception ex) {
-            System.out.println("userGet hiba! - " + ex.getMessage());
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
             return null;
         }
+
     }
 
-    public static boolean updateUser(User user) {
+    public static Boolean updateUser(User user) {
         try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("userUpdate");
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("userUpdate");
 
-            spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("in_username", String.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("in_birth_date", Date.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("in_gender_id", Integer.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_username", String.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_birth_date", Date.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_gender_id", Integer.class, ParameterMode.IN);
 
-            spq.setParameter("in_id", user.getUserId());
-            spq.setParameter("in_username", user.getUsername());
-            spq.setParameter("in_birth_date", user.getBirthDate());
-            spq.setParameter("in_gender_id", user.getGenderId().getGenderId());
-            spq.execute();
-            System.out.println("Felhasználó sikeresen frissítve!");
-            return true;
+                spq.setParameter("in_id", user.getUserId());
+                spq.setParameter("in_username", user.getUsername());
+                spq.setParameter("in_birth_date", user.getBirthDate());
+                spq.setParameter("in_gender_id", user.getGenderId().getGenderId());
+                spq.execute();
 
-        } catch (Exception ex) {
-            System.out.println("userUpdate Hiba! - " + ex.getMessage());
+                em.close();
+                emf.close();
+                System.out.println("Felhasználó sikeresen frissítve!");
+                return true;
+
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("userUpdate Hiba! - " + ex.getMessage());
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return false;
+        }
+
+    }
+
+    public static Boolean disableAdmin(Integer id) {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = Database.getDbConn();
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("userDisableAdmin");
+
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+
+                spq.setParameter("in_id", id);
+
+                spq.execute();
+
+                em.close();
+                emf.close();
+                System.out.println("Admin jogok sikeresen megvonva!");
+                return true;
+
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("disableAdmin Hiba! - " + ex.getMessage());
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return false;
+        }
+
+    }
+
+    public static Boolean enableAdmin(Integer id) {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = Database.getDbConn();
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("userEnableAdmin");
+
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+
+                spq.setParameter("in_id", id);
+
+                spq.execute();
+
+                em.close();
+                emf.close();
+                System.out.println("Admin jogok sikeresen hozzáadva!");
+                return true;
+
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("enableAdmin Hiba! - " + ex.getMessage());
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
             return false;
         }
     }
 
-    public static boolean disableAdmin(Integer id) {
+    public static Boolean setUserActive(Integer id) {
         try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("userDisableAdmin");
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("userSetActive");
 
-            spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
 
-            spq.setParameter("in_id", id);
+                spq.setParameter("in_id", id);
 
-            spq.execute();
-            System.out.println("Admin jogok sikeresen megvonva!");
-            return true;
+                spq.execute();
 
-        } catch (Exception ex) {
-            System.out.println("disableAdmin Hiba! - " + ex.getMessage());
+                em.close();
+                emf.close();
+                System.out.println("User aktiv sikeres!");
+                return true;
+
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("setUserActive Hiba! - " + ex.getMessage());
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
             return false;
         }
     }
 
-    public static boolean enableAdmin(Integer id) {
+    public static Boolean setUserInactive(Integer id) {
         try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("userEnableAdmin");
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("userSetInactive");
 
-            spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
 
-            spq.setParameter("in_id", id);
+                spq.setParameter("in_id", id);
 
-            spq.execute();
-            System.out.println("Admin jogok sikeresen hozzáadva!");
-            return true;
+                spq.execute();
 
-        } catch (Exception ex) {
-            System.out.println("enableAdmin Hiba! - " + ex.getMessage());
+                em.close();
+                emf.close();
+                System.out.println("User inaktiv sikeres!");
+                return true;
+
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("setUserInactive Hiba! - " + ex.getMessage());
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
             return false;
         }
-    }
 
-    public static boolean setUserActive(Integer id) {
-        try {
-            EntityManager em = Database.getDbConn();
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("userSetActive");
-
-            spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
-
-            spq.setParameter("in_id", id);
-
-            spq.execute();
-            System.out.println("User aktiv sikeres!");
-            return true;
-
-        } catch (Exception ex) {
-            System.out.println("setUserActive Hiba! - " + ex.getMessage());
-            return false;
-        }
-    }
-
-    public static boolean setUserInactive(Integer id) {
-        try {
-            EntityManager em = Database.getDbConn();
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("userSetInactive");
-
-            spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
-
-            spq.setParameter("in_id", id);
-
-            spq.execute();
-            System.out.println("User inaktiv sikeres!");
-            return true;
-
-        } catch (Exception ex) {
-            System.out.println("setUserInactive Hiba! - " + ex.getMessage());
-            return false;
-        }
     }
 
     public static List<User> getAllUser() {
         try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("userList");
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("userList");
 
-            List<Object[]> userObjectList = spq.getResultList();
-            List<User> userList = new ArrayList();
-            for (Object[] userObject : userObjectList) {
-                Integer id = Integer.parseInt(userObject[0].toString());
-                String key = userObject[1].toString();
-                String username = userObject[2].toString();
-                Date birhtDate = Date.valueOf(userObject[3].toString());
-                Gender gender = new Gender(Integer.parseInt(userObject[4].toString()), userObject[5].toString());
-                Boolean isAdmin = Boolean.parseBoolean(userObject[6].toString());
+                List<Object[]> userObjectList = spq.getResultList();
+                List<User> userList = new ArrayList();
+                for (Object[] userObject : userObjectList) {
+                    Integer id = Integer.parseInt(userObject[0].toString());
+                    String key = userObject[1].toString();
+                    String username = userObject[2].toString();
+                    Date birhtDate = Date.valueOf(userObject[3].toString());
+                    Gender gender = new Gender(Integer.parseInt(userObject[4].toString()), userObject[5].toString());
+                    Boolean isAdmin = Boolean.parseBoolean(userObject[6].toString());
 
-                User user = new User(id, key, username, birhtDate, gender, isAdmin);
-                userList.add(user);
+                    User user = new User(id, key, username, birhtDate, gender, isAdmin);
+                    userList.add(user);
+                }
+                em.close();
+                emf.close();
+                System.out.println("Userek lekérdezve!");
+                return userList;
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("getAllUser hiba! - " + ex.getMessage());
+                return null;
             }
-            System.out.println("Userek lekérdezve!");
-            return userList;
-        } catch (Exception ex) {
-            System.out.println("getAllUser hiba! - " + ex.getMessage());
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
             return null;
         }
+
     }
 
 }

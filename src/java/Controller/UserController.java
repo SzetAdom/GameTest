@@ -109,7 +109,7 @@ public class UserController extends HttpServlet {
                         Gender gender = new Gender(Integer.parseInt(request.getParameter("genderId")));
 
                         User user = new User(id, username, birthDate, gender);
-                        String serviceResultString = UserService.updateUser(user);
+                        Boolean serviceResultString = UserService.updateUser(user);
 
                         result.put("result", serviceResultString);
 

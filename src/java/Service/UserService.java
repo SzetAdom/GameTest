@@ -30,13 +30,13 @@ public class UserService {
         return UserRepo.getUser(id);
     }
 
-    public static String updateUser(User user) {
+    public static Boolean updateUser(User user) {
         System.out.println("------------------------");
         System.out.println("updateUser");
         if (UserRepo.updateUser(user)) {
-            return "Sikeres felhasználó update!";
+            return true;
         } else {
-            return "Sikertelen felhasználó update!";
+            return false;
         }
     }
 
