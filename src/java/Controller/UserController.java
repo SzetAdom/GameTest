@@ -48,18 +48,31 @@ public class UserController extends HttpServlet {
             }
 
             if (request.getParameter("task").equals("addUser")) {
-                JSONObject result = new JSONObject();                
-                try {
-                    Boolean isAdmin = false;
-                    
-                    isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("username").isEmpty()
+                        && !request.getParameter("birthDate").isEmpty()
+                        && !request.getParameter("genderId").isEmpty()) {
+                    try {
+                        String username = request.getParameter("username");
+                        Date birthDate = Date.valueOf(request.getParameter("birthDate"));
+                        Gender gender = new Gender(Integer.parseInt(request.getParameter("genderId")));
+                        Boolean isAdmin = false;
 
-                    User user = new User(null, null, null, isAdmin);
+                        if (!request.getParameter("isAdmin").isEmpty()) {
+                            isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
+                        }
 
-                    String key = UserService.addNewUser(user);
-                    result.put("result", key);
-                } catch (Exception e) {
-                    result.put("result", "Hiba a JSON adatok beolvasásakor!");
+                        User user = new User(username, birthDate, gender, isAdmin);
+
+                        String serviceResultString = UserService.addNewUser(user);
+                        result.put("result", serviceResultString);
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
                 }
                 out.println(result);
             }

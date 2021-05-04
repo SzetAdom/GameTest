@@ -7,15 +7,13 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.ParameterMode;
-import javax.persistence.Persistence;
 import javax.persistence.StoredProcedureQuery;
 
 public class UserRepo {
 
     public static Integer getUserByKey(String key) {
-        try {            
+        try {
             EntityManager em = Database.getDbConn();
             StoredProcedureQuery spq = em.createStoredProcedureQuery("Login");
             spq.registerStoredProcedureParameter("in_key", String.class, ParameterMode.IN);
@@ -56,10 +54,10 @@ public class UserRepo {
         }
     }
 
-    public static String userCreate(User user) {
+    public static boolean userCreate(User user) {
         try {
             EntityManager em = Database.getDbConn();
-            /*StoredProcedureQuery spq = em.createStoredProcedureQuery("userCreate");
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("userCreate");
             if (user.getIsAdmin()) {
                 spq = em.createStoredProcedureQuery("userCreateAdmin");
             }
@@ -70,26 +68,14 @@ public class UserRepo {
 
             spq.setParameter("in_username", user.getUsername());
             spq.setParameter("in_birth_date", user.getBirthDate());
-            spq.setParameter("in_gender_id", user.getGenderId().getGenderId());*/
-            
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("userCreateGeneral");
-            
-            spq.registerStoredProcedureParameter("in_isAdmin", Integer.class, ParameterMode.IN);
-            
-            spq.setParameter("in_isAdmin", user.getIsAdmin());
-            
+            spq.setParameter("in_gender_id", user.getGenderId().getGenderId());
             spq.execute();
-            
-            List<Object[]> userObjectList = spq.getResultList();
-            
-            String key = userObjectList.get(0)[0].toString();
-            
             System.out.println("Felhasználó sikeresen hozzáadva!");
-            return key;
+            return true;
 
         } catch (Exception ex) {
             System.out.println("userAdd Hiba! - " + ex.getMessage());
-            return "Hiba";
+            return false;
         }
     }
 

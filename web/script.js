@@ -11,21 +11,18 @@ function login(){
                 alert(response.result);
             }
             else{
-                if(response.id === 0){
-                    if(response.isAdmin === true){
-                        //alert("Admin vagy");                     
-                        localStorage.setItem("id", response.id);
-                        localStorage.setItem("isAdmin", response.isAdmin);
-                        callAdminPage(); 
-                    }
-                    else{
-                        //alert("Nem vagy admin");
-                        localStorage.setItem("id", response.id);
-                        localStorage.setItem("isAdmin", response.isAdmin);
-                        callUserPage();
-                    }
+                if(response.isAdmin === "true"){
+                    //alert("Admin vagy");                     
+                    localStorage.setItem("id", response.id);
+                    localStorage.setItem("isAdmin", response.isAdmin);
+                    callAdminPage(); 
                 }
-                else alert("Did not find the user or couldn't connect to the database");
+                else{
+                    //alert("Nem vagy admin");
+                    localStorage.setItem("id", response.id);
+                    localStorage.setItem("isAdmin", response.isAdmin);
+                    callUserPage();
+                }
             }
             //console.log(response);
         },
@@ -59,28 +56,10 @@ function clearLocalStorage(){
 }
 function showLabel(){
     
-    var x = document.getElementsByClassName("achievementsAdd");
-    var i;
+   var x = document.getElementsByClassName("achievementsAdd");
+   var i;
     for (i = 0; i < x.length; i++) {
-        x[i].style.display = "inline";   
-    }
+    x[i].style.display = "inline";
+   
 }
-
-function createUser(isAdmin){    
-    var request = {"task" : "addUser", "isAdmin" : isAdmin};
-    $.ajax({
-        url:"UserController",
-        type:"POST",
-        data: request,
-        success: function(response){
-            if(!response.result === "Hiba"){
-                alert("The key for the new user: " + response.result);
-            }
-            else alert("Couldn't connect to the database");
-        },
-        error: function(response){
-            alert("A problem has occured");
-            console.log(response);
-        }
-    });
 }
