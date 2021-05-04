@@ -167,10 +167,10 @@ function newTester(){
                 <h2>Register new Tester or create a new Admin</h2>
                 <ul>
                     <li>
-                        <input type="button" value="Create new user" name="newUser" onclick="alert('TODO')" />
+                        <input type="button" value="Create new user" name="newUser" onclick="newUser(false)" />
                     </li>
                     <li>
-                        <input type="button" value="Create new admin" name="newAdmin" onclick="alert('TODO')" />
+                        <input type="button" value="Create new admin" name="newAdmin" onclick="newUser(true)" />
                     </li>
                 </ul>
             </div>
@@ -210,7 +210,7 @@ function newGame(){
                         <input id="priceIN" type="number" name="price" value="60" min="0" max="120"/>
                     </li>
                     <li>
-                        <input type="button" value="Register the new game" name="newGame" onclick="alert('TODO')" />
+                        <input type="button" value="Register the new game" name="newGame" onclick="addGame()" />
                     </li>
                 </ul>
             </div>
