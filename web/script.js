@@ -1,5 +1,5 @@
 //login btn function
-function login(){    
+function login(){
     var id = document.getElementById("passIN").value;
     var request = {"task" : "login", "key" : id};
     $.ajax({
