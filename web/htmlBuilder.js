@@ -69,7 +69,7 @@ function setupAdminAside(){
         <aside id="adminAside">
             <ul>
                 <li>
-                    <input type="button" value="Choose game" name="chooseGame" onclick="chooseGame()" />   
+                    <input type="button" value="Choose game" name="chooseGame" onclick="chooseGame(0)" />   
                 </li>
                 <li>
                     <input type="button" value="Add new game" name="addNewGame" onclick="newGame()" />
@@ -93,44 +93,60 @@ function setupAdminAside(){
 
 
 //TODO: fill it up with data, once model+controller ready
-function chooseGame(){
+function chooseGame(countIn){
+    if(countIn < 0) var count = 0;
+    else var count = countIn;
+    var max = 0;
     clearContent();
     setupAdminAside();
-    document.getElementsByTagName("body")[0].innerHTML += `
-        <main class="adminMain">
-            <div id="chooseGame">
-                <h2>Choose a game to check out its global statistics</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Title</td>
-                            <td>Developer</td>
-                            <td>Release Date</td>
-                            <td>Price</td>
-                            <td>Genres</td>
-                        </tr>                        
-                    </thead>
-                    <tbody>
-                        <tr id="gameID" onclick="alert('TODO')">
-                            <td>Car game 3</td>
-                            <td>Driver Team</td>
-                            <td>2021-11-31</td>
-                            <td>45 euro</td>
-                            <td>Driving, Simulation</td>
-                        </tr>  
-                        <tr id="gameID" onclick="alert('TODO')">
-                            <td>Car game 4</td>
-                            <td>Driver Team</td>
-                            <td>2022-11-31</td>
-                            <td>49 euro</td>
-                            <td>Driving, Simulation</td>
-                        </tr> 
-                    </tbody>
-                </table>
-            </div>
-        </main>
-`;
+    var request = {"task" : "getAllGame"};
+    $.ajax({
+        url:"GameController",
+        type:"POST",
+        data: request,
+        success: function(response){
+            max = response.result.length;
+            if(count > response.result.length - 10) count = response.result.length-10;
+            document.getElementsByTagName("body")[0].innerHTML += `
+                <main class="adminMain">            
+                    <div id="chooseGame" count="`+count+`" max="`+max+`"   >
+                        <h2>Choose a game to check out its global statistics</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Title</td>
+                                    <td>Developer</td>
+                                    <td>Release Date</td>
+                                    <td>Price</td>
+                                </tr>                        
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <input type="button" id="last" onclick="chooseGame(`+(count-10)+`)" value="Previous 10"/>
+                        <input type="button" id="next" onclick="chooseGame(`+(count+10)+`)" value="Next 10"/>
+                    </div>
+                </main>`;
+            console.log(response);
+            for(var i = count; i<count + 10; i++){
+                document.getElementsByTagName("tbody")[0].innerHTML += 
+                `<tr id="`+response.result[i].gameId+`" onclick="alert('TODO')">
+                    <td>` + response.result[i].name + `</td>
+                    <td>` + response.result[i].dev + `</td>
+                    <td>` + response.result[i].releaseDate + `</td>
+                    <td>` + response.result[i].price + `</td>
+                </tr>`;
+                    
+                console.log(response.result[i].gameId + response.result[i].dev);
+            }
+        },
+        error: function(response){
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    });
 }
+
 
 //TODO: fill it with data
 function chooseTester(){

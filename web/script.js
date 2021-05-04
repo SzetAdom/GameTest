@@ -38,7 +38,7 @@ function login(){
 function callAdminPage(){
     clearContent();
     setupAdminAside();
-    chooseGame();
+    chooseGame(0);
 }
 
 function callUserPage(){

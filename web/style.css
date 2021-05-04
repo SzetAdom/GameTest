@@ -83,15 +83,15 @@ aside input{
     width: 85%;
 }
 table{
-    margin-left: 25%;
-    width: 50%;
+    margin-left: 20%;
+    width: 60%;
     margin-top: 35px;
 }
 
 /*choose game part*/
 
 #chooseGame td{
-    width: 20%;
+    width: 25%;
     text-align: center;
     padding: 0;
     padding-top: 7px;
@@ -110,7 +110,12 @@ table{
 }
 #chooseGame h2{
     text-align: center;
-    margin-top: 100px;
+    margin-top: 150px;
+}
+#last{
+    display: inline;
+    margin-left: 70%;
+    margin-top: 30px;
 }
 
 /*choose player part*/
