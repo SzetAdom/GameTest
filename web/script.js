@@ -11,17 +11,21 @@ function login(){
                 alert(response.result);
             }
             else{
-                if(response.isAdmin === "true"){
+                if(response.isAdmin === "true" && response.id != 0){
                     //alert("Admin vagy");                     
                     localStorage.setItem("id", response.id);
                     localStorage.setItem("isAdmin", response.isAdmin);
                     callAdminPage(); 
                 }
                 else{
-                    //alert("Nem vagy admin");
-                    localStorage.setItem("id", response.id);
-                    localStorage.setItem("isAdmin", response.isAdmin);
-                    callUserPage();
+                    if(response.isAdmin === "false" && response.id != 0){
+                        //alert("Nem vagy admin");
+                       localStorage.setItem("id", response.id);
+                       localStorage.setItem("isAdmin", response.isAdmin);
+                       callUserPage();
+                    } else {
+                        alert("Wrong key!");  
+                    }   
                 }
             }
             //console.log(response);
