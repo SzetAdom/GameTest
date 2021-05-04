@@ -24,6 +24,7 @@ public class UserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             if (request.getParameter("task").equals("login")) {
                 JSONObject result = new JSONObject();
@@ -97,17 +98,15 @@ public class UserController extends HttpServlet {
 
             if (request.getParameter("task").equals("updateUser")) {
                 JSONObject result = new JSONObject();
-                if (!request.getParameter("id").isEmpty()) {
+                if (!request.getParameter("id").isEmpty()
+                        && !request.getParameter("username").isEmpty()
+                        && !request.getParameter("birthDate").isEmpty()
+                        && !request.getParameter("genderId").isEmpty()) {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
                         String username = request.getParameter("username");
                         Date birthDate = Date.valueOf(request.getParameter("birthDate"));
                         Gender gender = new Gender(Integer.parseInt(request.getParameter("genderId")));
-
-                        System.out.println(id);
-                        System.out.println(username);
-                        System.out.println(birthDate);
-                        System.out.println(gender);
 
                         User user = new User(id, username, birthDate, gender);
                         String serviceResultString = UserService.updateUser(user);

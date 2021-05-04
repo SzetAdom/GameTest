@@ -114,7 +114,7 @@ public class Gender implements Serializable {
 
     @Override
     public String toString() {
-        return "Modell.Gender[ genderId=" + genderId + " ]";
+        return "genderId: " + genderId + ", nameOfGender: " + nameOfGender;
     }
 
 }
