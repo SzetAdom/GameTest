@@ -1,6 +1,20 @@
+function setup(){
+    const isAdmin = localStorage.getItem("isAdmin");
+    if(isAdmin != null){
+        if(isAdmin){
+            localStorage.setItem("isAdmin", true)
+            callAdminPage(); 
+        }else{
+            localStorage.setItem("isAdmin", false)
+            callUserPage();
+        }
+    }
+    getJoke();
+}
+
 //DONE, gets joke on page load
 function getJoke(){
-    clearLocalStorage();
+    //clearLocalStorage(); Not sure why it was here
     var xmlhttp = new XMLHttpRequest();
     var url = "https://official-joke-api.appspot.com/jokes/programming/random";
     
