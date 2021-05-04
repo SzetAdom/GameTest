@@ -47,32 +47,23 @@ public class UserController extends HttpServlet {
                 out.println(result);
             }
 
-            if (request.getParameter("task").equals("addUser")) {
+            if (request.getParameter("task").equals("userCreate")) {
                 JSONObject result = new JSONObject();
-                if (!request.getParameter("username").isEmpty()
-                        && !request.getParameter("birthDate").isEmpty()
-                        && !request.getParameter("genderId").isEmpty()) {
-                    try {
-                        String username = request.getParameter("username");
-                        Date birthDate = Date.valueOf(request.getParameter("birthDate"));
-                        Gender gender = new Gender(Integer.parseInt(request.getParameter("genderId")));
+                try {
                         Boolean isAdmin = false;
 
                         if (!request.getParameter("isAdmin").isEmpty()) {
                             isAdmin = Boolean.parseBoolean(request.getParameter("isAdmin"));
                         }
 
-                        User user = new User(username, birthDate, gender, isAdmin);
+                        User user = new User(null, null, null, isAdmin);
 
                         String serviceResultString = UserService.addNewUser(user);
                         result.put("result", serviceResultString);
 
-                    } catch (Exception e) {
+                } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásakor!");
-                    }
-
-                } else {
-                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
+                        result.put("result", "A mezők nincsenek megfelelően kitöltve");
                 }
                 out.println(result);
             }

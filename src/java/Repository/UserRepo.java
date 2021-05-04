@@ -79,40 +79,40 @@ public class UserRepo {
 
     }
 
-    public static Boolean userCreate(User user) {
+    public static String userCreate(User user) {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
             try {
 
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("userCreate");
-                if (user.getIsAdmin()) {
-                    spq = em.createStoredProcedureQuery("userCreateAdmin");
-                }
+                
 
-                spq.registerStoredProcedureParameter("in_username", String.class, ParameterMode.IN);
-                spq.registerStoredProcedureParameter("in_birth_date", Date.class, ParameterMode.IN);
-                spq.registerStoredProcedureParameter("in_gender_id", Integer.class, ParameterMode.IN);
-
-                spq.setParameter("in_username", user.getUsername());
-                spq.setParameter("in_birth_date", user.getBirthDate());
-                spq.setParameter("in_gender_id", user.getGenderId().getGenderId());
+                spq.registerStoredProcedureParameter("in_isAdmin", Integer.class, ParameterMode.IN);
+                if(user.getIsAdmin())spq.setParameter("in_isAdmin", 1);
+                else spq.setParameter("in_isAdmin", 0);
                 spq.execute();
-
+                
+                List<Object[]> userObjectList = spq.getResultList();
+                String response = "";
+                for(Object[] userObject : userObjectList){
+                    response = userObject[0].toString();
+                }
+                System.out.println(userObjectList);
                 em.close();
                 emf.close();
                 System.out.println("Felhasználó sikeresen hozzáadva!");
-                return true;
+                return response;
 
             } catch (Exception ex) {
                 em.close();
                 emf.close();
                 System.out.println("userAdd Hiba! - " + ex.getMessage());
-                return false;
+                return "";
             }
         } catch (Exception e) {
             System.out.println("Database connection hiba! - " + e.getMessage());
-            return false;
+            return "";
         }
 
     }

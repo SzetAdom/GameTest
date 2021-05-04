@@ -56,7 +56,8 @@ function newUser(isAdmin){
         type:"POST",
         data: request,
         success: function(response){
-            alert("The key of the new user: " + response.key);
+            if(response.result !== "")alert("The key of the new user: " + response.result);
+            else alert("Unsuccessful user creation");
         },
         error: function(response){
             alert("Problem with the data processing");
