@@ -304,16 +304,15 @@ function choosenGame(idIN){
                     <p id="devGame"></p>
                     <p id="price"></p>
                     <p>All achievements</p>
-                    <ul id="achiList">
-                        
+                    <ul id="achiList">                        
                     </ul>
                     <p>All reviews</p>
                     <ul id="reviewList">
                     </ul>
                 </div>
                 <div id="choosenRight">
-                    <input type="button" id="updateGame" value="Update the elements of the game" onclick="alert('TODO')"/>
-                    <input type="button" id="addAchi" value="Add a new achievement" onclick="alert('TODO')"/>
+                    <!--<input type="button" id="updateGame" value="Update the elements of the game" onclick="alert('TODO')"/>-->
+                    <input type="button" id="addAchi" value="Add a new achievement" onclick="setupAddAchievement(`+idIN+`)"/>
                     <input type="button" id="deleteGame" value="Delete game" onclick="deleteGame(`+idIN+`)"/>
                 </div>
             </div>
@@ -389,6 +388,63 @@ function deleteGame(idIN){
             console.log(response);
         }
     });
+}
+function setupAddAchievement(idIN){    
+    clearContent();
+    setupAdminAside();
+    document.getElementsByTagName("body")[0].innerHTML += `
+        <main id="addAchiMain">
+        <h2>Add a new achievement to the game</h2>
+        <ul id="addAchiUL">  
+            
+            <li>
+                <label>Description: </label>
+                <br/>
+                <textarea id="descIN"  name="desc" placeholder="A small description of the game"/></textarea>
+
+            </li>
+            <li>
+                <label>Prerequisite: </label>
+                <input id="preIN" class="numIN" type="number" name="preIN" value="1" />
+            </li>
+            <li>
+                <label>Type: </label>
+                <input id="typeIN" class="numIN" type="number" name="typeIN" value="1" min="1" max="5"/>
+            </li>
+            <li>
+                <input id="newAchiBTN" type="button" value="Register the new achievement" name="newAchi" onclick="addAchievement(`+idIN+`)" />
+            </li>
+        </ul>
+        </main>
+`;
+    
+}
+function addAchievement(idIN){
+    if(document.getElementById("typeIN").value < 1 || document.getElementById("typeIN").value > 5){
+        alert("Wrong input");
+        return;
+    }else{
+        var desc = document.getElementById("descIN").value;
+        var typeId = document.getElementById("typeIN").value;
+        var preIN = document.getElementById("preIN").value;
+        if(preIN <= 0) preIN = null;
+        var request = {"task" : "createAchievement", "gameId" : idIN, "prerequisite" : preIN, "description" : desc, "typeId" : typeId};
+        console.log(request);
+        $.ajax({
+            url:"AchievementController",
+            type:"POST",
+            data: request,
+            success: function(response){
+                if(response.result === true) alert("Succesfully added the new achievement");
+                else alert("Unsuccesful achievement registering");
+                chooseGame(0);
+            },
+            error: function(response){
+                alert("Problem with the data processing");
+                console.log(response);
+            }
+        });
+    }
 }
 function changeAdmin(idIN){
     var isAdmin = document.getElementById("userAdmin").innerHTML;

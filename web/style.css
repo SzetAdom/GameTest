@@ -117,7 +117,25 @@ table{
     margin-left: 70%;
     margin-top: 30px;
 }
-
+/*add achi part*/
+#addAchiUL{
+    margin-top: 150px;
+    list-style: none;
+}
+#addAchiMain{
+    text-align: center;
+    margin-top: 120px;
+}
+#newAchiBTN{
+    width: 200px;
+}
+#addAchiUL .numIN{
+    width: 100px;
+}
+#addAchiUL textarea{
+    width: 200px;
+    height: 80px;
+}
 /*choose player part*/
 #chooseTester .true{
     background-color: crimson;
