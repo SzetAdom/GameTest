@@ -26,7 +26,7 @@ function getJoke(){
             var myArr = JSON.parse(this.responseText);
             //console.log(myArr);
             document.getElementById("joke").innerHTML += 
-                    "<b>Daily joke: </b>" + 
+                    "<b>Logged in ID: </b>"+localStorage.getItem("id")+"<b>Daily joke: </b>" + 
                     myArr[0].setup + " " + myArr[0].punchline;
         }
     };
@@ -177,7 +177,7 @@ function chooseTester(countIn){
             document.getElementsByTagName("tbody")[0].innerHTML += "<tr></tr>";
             for(var j = 0; j < 5;j++){
                 document.getElementsByTagName("tr")[i].innerHTML 
-                += `<td id="`+response.result[count].userId+`" class="`+response.result[count].isAdmin+`" onclick="alert(`+response.result[count].userId+`)">`+response.result[count].username+`</td>`;
+                += `<td id="`+response.result[count].userId+`" class="`+response.result[count].isAdmin+`" onclick="choosenTester(`+response.result[count].userId+`)">`+response.result[count].username+`</td>`;
                 count++;
             }
         }
@@ -188,25 +188,66 @@ function chooseTester(countIn){
             console.log(response);
         }
     });
-    /*document.getElementsByTagName("body")[0].innerHTML += `
+}
+
+function choosenTester(idIN){
+    clearContent();
+    setupAdminAside();
+    document.getElementsByTagName("body")[0].innerHTML += `
         <main class="adminMain">
-            <div id="chooseTester">
-                <h2>Choose a tester to check out his/her overall statistics</h2>
-                <table>
-                    <tr>
-                        <td id="player1" onclick="alert('TODO')">Player1</td>
-                        <td id="player2" onclick="alert('TODO')">Player2</td>
-                        <td id="player3" onclick="alert('TODO')">Player3</td>
-                        <td id="player4" onclick="alert('TODO')">Player4</td>
-                    </tr>
-                    <tr>
-                        <td id="player5" onclick="alert('TODO')">Player5</td>
-                        <td id="player6" onclick="alert('TODO')">Player6</td>
-                    </tr>
-                </table>                
-            </div>            
+            <div id="choosenTester">
+                <div id="choosenLeft">
+                    <h2 id="userName"></h2>
+                    <h4 id="userKey"></h4>
+                    <p id="userID"></p>
+                    <p id="userBirth"></p>
+                    <p id="userGender"></p>
+                    <p id="userAdmin"></p>
+                    <p>All achievements</p>
+                    <ul>
+                        <li>Game
+                            <ul>
+                                <li>Achi1</li>
+                                <li>Achi2</li>
+                            </ul>
+                        </li>
+                        <li>Game
+                            <ul>
+                                <li>Achi1</li>
+                                <li>Achi2</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div id="choosenRight">
+                    <input type="button" id="changeAdmin" value="Change admin property" onclick="alert('TODO')"/>
+                    <input type="button" id="deleteUser" value="Delete user" onclick="alert('TODO')"/>
+                    <input type="button" id="changeAdmin" value="Change admin property" onclick="alert('TODO')"/>
+                </div>
+            </div>
         </main>
-`;*/
+`;
+    var request = {"task" : "getUser", "id" : idIN};
+    $.ajax({
+        url:"UserController",
+        type:"POST",
+        data: request,
+        success: function(response){
+            console.log(response);
+            document.getElementById("userName").innerHTML = "Username: "+response.username;
+            document.getElementById("userKey").innerHTML = "Key: "+response.key;
+            document.getElementById("userID").innerHTML = "ID: "+response.id;
+            document.getElementById("userBirth").innerHTML = "Born at: "+response.birthDate;
+            if(response.gender === "true") document.getElementById("userGender").innerHTML = "Sex: Male";
+            else document.getElementById("userGender").innerHTML = "Sex: Female";
+            if(response.isAdmin) document.getElementById("userAdmin").innerHTML = "Type: <b>Tester</b>";
+            else document.getElementById("userAdmin").innerHTML = "<b>Admin</b>";
+        },
+        error: function(response){            
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    });
 }
 
 //TODO: connect to db

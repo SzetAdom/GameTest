@@ -117,7 +117,7 @@ public class UserRepo {
 
     }
 
-    public static User getUser(Integer id) {
+    public static ArrayList<String> getUser(Integer id) {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
@@ -129,13 +129,20 @@ public class UserRepo {
 
                 List<Object[]> userObjectList = spq.getResultList();
                 User user = null;
+                ArrayList<String> list = new ArrayList<>();
                 for (Object[] userObject : userObjectList) {
-                    Integer userId = Integer.parseInt(userObject[0].toString());
+                    Integer userId = Integer.parseInt(userObject[0].toString());                    
                     String key = userObject[1].toString();
                     String username = userObject[2].toString();
                     Date birhtDate = Date.valueOf(userObject[3].toString());
                     Gender gender = new Gender(Integer.parseInt(userObject[4].toString()), userObject[5].toString());
                     Boolean isAdmin = Boolean.parseBoolean(userObject[6].toString());
+                    list.add(userId.toString());
+                    list.add(key);
+                    list.add(username);
+                    list.add(userObject[3].toString());
+                    list.add(gender.toString());
+                    list.add(isAdmin.toString());
 
                     user = new User(id, key, username, birhtDate, gender, isAdmin);
                 }
@@ -143,7 +150,7 @@ public class UserRepo {
                 em.close();
                 emf.close();
                 System.out.println("User lekérdezve!");
-                return user;
+                return list;
             } catch (Exception ex) {
                 em.close();
                 emf.close();
