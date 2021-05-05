@@ -310,11 +310,10 @@ function choosenGame(idIN){
                     </ul>
                     <p>All reviews</p>
                     <ul id="reviewList">
-                        <li>Game1: Review1</li>
-                        <li>Game1: Review1</li>
                     </ul>
                 </div>
                 <div id="choosenRight">
+                    <input type="button" id="updateGame" value="Update the elements of the game" onclick="alert('TODO')"/>
                     <input type="button" id="addAchi" value="Add a new achievement" onclick="alert('TODO')"/>
                     <input type="button" id="deleteGame" value="Delete game" onclick="deleteGame(`+idIN+`)"/>
                 </div>
@@ -348,7 +347,6 @@ function choosenGame(idIN){
         type:"POST",
         data: request,
         success: function(response){
-            console.log(response);
             for(var i=0; i < response.result.length; i++){
                 document.getElementById("achiList").innerHTML += "<li>"+response.result[i].descriptionOfAchievment + " ( " + response.result[i].achievementType.nameOfAchievementType + " )</li>";
             }
@@ -358,7 +356,25 @@ function choosenGame(idIN){
             console.log(response);
         }
     });
-    request = {"task" : ""};
+    request = {"task" : "reviewListbyGame", "id" : idIN};
+    $.ajax({
+        url:"ReviewController",
+        type:"POST",
+        data: request,
+        success: function(response){
+            console.log(response);
+            for(var i=0; i < response.result.length; i++){
+                document.getElementById("reviewList").innerHTML += "<li>"+response.result[i].comment 
+                    +" ( "+response.result[i].score+" ) by "+response.result[i].username +"</li>";
+                
+                 
+            }
+        },
+        error: function(response){            
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    });
 }
 function deleteGame(idIN){
     var request = {"task" : "setGameInactive", "id" : idIN};
