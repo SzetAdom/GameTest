@@ -9,6 +9,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.ParameterMode;
 import javax.persistence.Persistence;
 import javax.persistence.StoredProcedureQuery;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class GenderRepo {
 
@@ -169,5 +171,38 @@ public class GenderRepo {
         }
 
     }
+    public static JSONObject getGenderDistribution() {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = Database.getDbConn();
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("genderDistribution");
 
+                List<Object[]> genderDistributionObjectList = spq.getResultList();
+                JSONObject genderDistribution = new JSONObject();
+                JSONArray genderArray = new JSONArray();
+                JSONArray numberOfArray = new JSONArray();
+                for (Object[] genderDistributionObject : genderDistributionObjectList) {
+                    String gender = genderDistributionObject[0].toString();
+                    Integer numberOf = Integer.parseInt(genderDistributionObject[1].toString());
+                    genderArray.put(gender);
+                    numberOfArray.put(numberOf);
+                }
+                genderDistribution.put("gender", genderArray);
+                genderDistribution.put("numberOf", numberOfArray);
+                em.close();
+                emf.close();
+                System.out.println("Review score eloszlás lekérdezve!");
+                return genderDistribution;
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("getAllUser hiba! - " + ex.getMessage());
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return null;
+        }
+    }
 }
