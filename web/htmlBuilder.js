@@ -538,7 +538,7 @@ function checkCharts(){
     getScoreDisrubution();
     getReviewsOverTime();
     getTestersOverTime();
-    
+    getGenderDistribution();
 }
 function makeScoreDisrubutionPlot(response){
     const data = [{
@@ -584,6 +584,21 @@ function makeTestersOverTimePlot(response){
              
     };
     Plotly.newPlot('plot3', data, layout);
+}
+
+function makeGenderDisrubutionPlot(response){
+    const data = [{
+        x: response.gender,
+        y: response.numberOf,
+        type: 'bar'
+      }];
+    const layout = {
+        width: 600,
+        height: 350,
+        margin: 0,
+        title: "Gender distribution"
+    };
+    Plotly.newPlot('plot4', data, layout);
 }
 
 function setupUserAside(){
