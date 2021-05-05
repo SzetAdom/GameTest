@@ -329,43 +329,29 @@ function checkCharts(){
     div.append(title);
     
     const table = document.createElement("table");
-    div.append(table)
+    div.append(table);
     const tr1 = document.createElement("tr");
     const td1 = document.createElement("td");
     const td2 = document.createElement("td");
-    tr1.append(td1, td2)
+    tr1.append(td1, td2);
     const tr2 = document.createElement("tr");
     const td3 = document.createElement("td");
     const td4 = document.createElement("td");
-    tr2.append(td3, td4)
-    table.append(tr1,tr2)
+    tr2.append(td3, td4);
+    table.append(tr1,tr2);
     
     const plot1 = document.createElement("div");
-    plot1.id = "plot1"
-    td1.append(plot1)
+    plot1.id = "plot1";
+    td1.append(plot1);
     const plot2 = document.createElement("div");
-    plot2.id = "plot2"
-    td2.append(plot2)
+    plot2.id = "plot2";
+    td2.append(plot2);
     const plot3 = document.createElement("div");
-    plot3.id = "plot3"
-    td3.append(plot3)
+    plot3.id = "plot3";
+    td3.append(plot3);
     const plot4 = document.createElement("div");
-    plot4.id = "plot4"
-    td4.append(plot4)
-    const data = [{
-        x: [1,2,3,4,5],
-        y: [30,60,80,140,90],
-        type: 'bar',
-        
-        
-      }
-    ];
-    const layout = {
-        width: 600,
-        height: 350,
-        margin: 0
-             
-    };
+    plot4.id = "plot4";
+    td4.append(plot4);
 
     getScoreDisrubution();
     getReviewsOverTime();
@@ -376,7 +362,7 @@ function makeScoreDisrubutionPlot(response){
     const data = [{
         x: response.score,
         y: response.numberOf,
-        type: 'bar',
+        type: 'bar'
       }];
     const layout = {
         width: 600,
@@ -390,7 +376,7 @@ function makeReviewsOverTimePlot(response){
     const data = [{
         x: [response.year, response.month].reduce((a, b) => a.map((v, i) => v + '-' + b[i])),
         y: cumSum(response.numberOf),
-        type: 'line',
+        type: 'line'
       }];
     const layout = {
         width: 600,
@@ -405,7 +391,7 @@ function makeTestersOverTimePlot(response){
     const data = [{
         x: [response.year, response.month].reduce((a, b) => a.map((v, i) => v + '-' + b[i])),
         y: cumSum(response.numberOf),
-        type: 'line',
+        type: 'line'
       }];
     const layout = {
         width: 600,
