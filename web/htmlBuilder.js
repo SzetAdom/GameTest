@@ -277,7 +277,6 @@ function choosenTester(idIN){
         type:"POST",
         data: request,
         success: function(response){
-            console.log(response);
             for(var i=0; i<response.result.length;i++){
                 document.getElementById("reviewList").innerHTML += "<li>On " + response.result[i].gameName 
                     + ": " + response.result[i].comment 
@@ -362,7 +361,6 @@ function choosenGame(idIN){
         type:"POST",
         data: request,
         success: function(response){
-            console.log(response);
             for(var i=0; i < response.result.length; i++){
                 document.getElementById("reviewList").innerHTML += "<li>"+response.result[i].comment 
                     +" ( "+response.result[i].score+" ) by "+response.result[i].username +"</li>";
