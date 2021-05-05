@@ -29,5 +29,10 @@ public class ReviewService {
         System.out.println("getReviewsOverTime");
         return ReviewRepo.getReviewListbyUser(id);
     }
+    public static JSONArray getReviewListbyGame(Integer id) {
+        System.out.println("------------------------");
+        System.out.println("reviewListbyGame");
+        return ReviewRepo.getReviewListbyGame(id);
+    }
     
 }

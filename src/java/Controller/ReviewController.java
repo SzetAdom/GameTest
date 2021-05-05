@@ -69,6 +69,20 @@ public class ReviewController extends HttpServlet {
                 }
             }
             
+            if (request.getParameter("task").equals("reviewListbyGame")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+                        JSONArray reviewListbyGame = ReviewService.getReviewListbyGame(id);
+                        result.put("result", reviewListbyGame);
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+                    out.println(result);
+                }
+            }
+            
         }
     }
 

@@ -140,5 +140,57 @@ public class ReviewRepo {
             return null;
         }
     }
+    public static JSONArray getReviewListbyGame(Integer id) {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = Database.getDbConn();
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("reviewListbyGame");
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+                spq.setParameter("in_id", id);
+                
+                List<Object[]> reviewListbyGameObjectList = spq.getResultList();
+                
+                JSONArray reviewListbyGame = new JSONArray();
+                for (Object[] reviewListbyGameObject : reviewListbyGameObjectList) {
+                    JSONObject review = new JSONObject();
+                    
+                    Integer reviewId = Integer.parseInt(reviewListbyGameObject[0].toString());
+                    Integer userId = Integer.parseInt(reviewListbyGameObject[1].toString());
+                    Integer gameId = Integer.parseInt(reviewListbyGameObject[2].toString());
+                    String username = reviewListbyGameObject[3].toString();
+                    String gameName = reviewListbyGameObject[4].toString();
+                    Integer score = Integer.parseInt(reviewListbyGameObject[5].toString());
+                    String comment = reviewListbyGameObject[6].toString();
+                    String createdId = reviewListbyGameObject[7].toString();
+                    
+                    review.put("reviewId", reviewId);
+                    review.put("userId", userId);
+                    review.put("gameId", gameId);
+                    review.put("username", username);
+                    review.put("gameName", gameName);
+                    review.put("score", score);
+                    review.put("comment", comment);
+                    review.put("createdId", createdId);
+                    
+                    reviewListbyGame.put(review);
+                }
+
+                em.close();
+                emf.close();
+                System.out.println("Review over time lekérdezve!");
+                return reviewListbyGame;
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("getAllUser hiba! - " + ex.getMessage());
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return null;
+        }
+    }
+    
     
 }
