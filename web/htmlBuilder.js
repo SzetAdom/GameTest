@@ -367,8 +367,8 @@ function makeScoreDisrubutionPlot(response){
     const layout = {
         width: 600,
         height: 350,
-        margin: 0
-             
+        margin: 0,
+        title: "Rating score distribution"
     };
     Plotly.newPlot('plot1', data, layout);
 }
@@ -381,7 +381,8 @@ function makeReviewsOverTimePlot(response){
     const layout = {
         width: 600,
         height: 350,
-        margin: 0
+        margin: 0,
+        title: "Total review count over time"
              
     };
     Plotly.newPlot('plot2', data, layout);
@@ -396,7 +397,8 @@ function makeTestersOverTimePlot(response){
     const layout = {
         width: 600,
         height: 350,
-        margin: 0
+        margin: 0,
+        title: "Total user count over time"
              
     };
     Plotly.newPlot('plot3', data, layout);
