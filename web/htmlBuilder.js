@@ -326,13 +326,54 @@ function checkCharts(){
              
     };
 
-    Plotly.newPlot('plot1', data, layout);
-    Plotly.newPlot('plot2', data, layout);
-    Plotly.newPlot('plot3', data, layout);
-    Plotly.newPlot('plot4', data, layout);
+    getScoreDisrubution();
+    getReviewsOverTime();
+    getTestersOverTime();
     
 }
+function makeScoreDisrubutionPlot(response){
+    const data = [{
+        x: response.score,
+        y: response.numberOf,
+        type: 'bar',
+      }];
+    const layout = {
+        width: 600,
+        height: 350,
+        margin: 0
+             
+    };
+    Plotly.newPlot('plot1', data, layout);
+}
+function makeReviewsOverTimePlot(response){
+    const data = [{
+        x: [response.year, response.month].reduce((a, b) => a.map((v, i) => v + '-' + b[i])),
+        y: cumSum(response.numberOf),
+        type: 'line',
+      }];
+    const layout = {
+        width: 600,
+        height: 350,
+        margin: 0
+             
+    };
+    Plotly.newPlot('plot2', data, layout);
+}
 
+function makeTestersOverTimePlot(response){
+    const data = [{
+        x: [response.year, response.month].reduce((a, b) => a.map((v, i) => v + '-' + b[i])),
+        y: cumSum(response.numberOf),
+        type: 'line',
+      }];
+    const layout = {
+        width: 600,
+        height: 350,
+        margin: 0
+             
+    };
+    Plotly.newPlot('plot3', data, layout);
+}
 
 function setupUserAside(){
     document.getElementsByTagName("body")[0].innerHTML += `

@@ -100,6 +100,63 @@ function addGame(){
     else alert("The form isn't filled right");
 }
 
+function getScoreDisrubution(){
+    const request = {"task" : "getScoreDisrubution"};
+    $.ajax({
+            url:"ReviewController",
+            type:"GET",
+            data: request,
+            success: function(response){
+                makeScoreDisrubutionPlot(response);
+            },
+            error: function(response){
+                response = {score: [1,2,3,4,5], numberOf: [9,7,25,42,18]};
+                makeScoreDisrubutionPlot(response);
+            }
+        });
+}
+function getReviewsOverTime(){
+    const request = {"task" : "getReviewsOverTime"};
+    $.ajax({
+            url:"ReviewController",
+            type:"GET",
+            data: request,
+            success: function(response){
+                makeReviewsOverTimePlot(response);
+            },
+            error: function(response){
+                response = {year: [2020,2021,2021,2021,2021], month: [12,1,2,3,4], numberOf: [0,24,21,36,20]}
+                makeReviewsOverTimePlot(response);
+                //alert("Problem with database connection");
+                //console.log(response);
+            }
+        });
+}
+function getTestersOverTime(){
+    const request = {"task" : "getTestersOverTime"};
+    $.ajax({
+            url:"UserController",
+            type:"GET",
+            data: request,
+            success: function(response){
+                makeTestersOverTimePlot(response);
+            },
+            error: function(response){
+                response = {year: [2021,2021,2021], month: [3,4,5], numberOf: [0,101,7]};
+                makeTestersOverTimePlot(response);
+            }
+        });
+}
+
+function cumSum(a) {
+    let result = [a[0]];
+
+    for(let i = 1; i < a.length; i++) {
+      result[i] = result[i - 1] + a[i];
+    }
+
+    return result;
+};
 //DONE
 function checkNewGameData(){
     if(
