@@ -2,6 +2,7 @@ package Service;
 
 import Modell.User;
 import Repository.UserRepo;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
@@ -20,7 +21,7 @@ public class UserService {
         return UserRepo.userCreate(user);
     }
 
-    public static User getUser(Integer id) {
+    public static ArrayList<String> getUser(Integer id) {
         System.out.println("------------------------");
         System.out.println("getUser");
         return UserRepo.getUser(id);

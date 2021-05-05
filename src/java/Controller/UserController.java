@@ -11,6 +11,8 @@ import Service.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -74,8 +76,13 @@ public class UserController extends HttpServlet {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
 
-                        User user = UserService.getUser(id);
-                        result.put("result", user.toString());
+                        ArrayList<String> user = UserService.getUser(id);
+                        result.put("id", user.get(0));
+                        result.put("key", user.get(1));
+                        result.put("username", user.get(2));
+                        result.put("birthDate", user.get(3));
+                        result.put("gender", user.get(5));
+                        result.put("isAdmin", user.get(6));
 
                     } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásakor!");
