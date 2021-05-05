@@ -147,6 +147,20 @@ function getTestersOverTime(){
             }
         });
 }
+function getGenderDistribution(){
+    const request = {"task" : "getGenderDistribution"};
+    $.ajax({
+            url:"GenderController",
+            type:"GET",
+            data: request,
+            success: function(response){
+                makeGenderDisrubutionPlot(response.result);
+            },
+            error: function(response){
+                alert("Database connection failed")
+            }
+        });
+}
 
 function cumSum(a) {
     let result = [a[0]];

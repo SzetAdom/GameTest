@@ -3,6 +3,7 @@ package Service;
 import Modell.Gender;
 import Repository.GenderRepo;
 import java.util.List;
+import org.json.JSONObject;
 
 public class GenderService {
 
@@ -36,5 +37,12 @@ public class GenderService {
         System.out.println("setGenderInactive");
 
         return GenderRepo.setGenderInactive(id);
+    }
+    
+    public static JSONObject getGenderDistribution() {
+        System.out.println("------------------------");
+        System.out.println("getGenderDistribution");
+
+        return GenderRepo.getGenderDistribution();
     }
 }

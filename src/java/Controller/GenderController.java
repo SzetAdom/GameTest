@@ -114,6 +114,18 @@ public class GenderController extends HttpServlet {
                 }
                 out.println(result);
             }
+            
+            if (request.getParameter("task").equals("getGenderDistribution")) {
+                JSONObject result = new JSONObject();
+                try {
+                    JSONObject genderDistribution = GenderService.getGenderDistribution();
+                    result.put("result", genderDistribution);
+                } catch (Exception e) {
+                    System.out.println("Hiba a JSON adatok beolvasásakor!");
+                }
+                out.println(result);
+            }
+            
         } catch (Exception ex) {
             System.out.println("Hiányos mezők");
         }
