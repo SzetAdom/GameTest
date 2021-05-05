@@ -101,13 +101,13 @@ function addGame(){
 }
 
 function getScoreDisrubution(){
-    const request = {"task" : "getScoreDisrubution"};
+    const request = {"task" : "getScoreDistribution"};
     $.ajax({
             url:"ReviewController",
             type:"GET",
             data: request,
             success: function(response){
-                makeScoreDisrubutionPlot(response);
+                makeScoreDisrubutionPlot(response.result);
             },
             error: function(response){
                 response = {score: [1,2,3,4,5], numberOf: [9,7,25,42,18]};
@@ -122,7 +122,7 @@ function getReviewsOverTime(){
             type:"GET",
             data: request,
             success: function(response){
-                makeReviewsOverTimePlot(response);
+                makeReviewsOverTimePlot(response.result);
             },
             error: function(response){
                 response = {year: [2020,2021,2021,2021,2021], month: [12,1,2,3,4], numberOf: [0,24,21,36,20]}
@@ -139,7 +139,7 @@ function getTestersOverTime(){
             type:"GET",
             data: request,
             success: function(response){
-                makeTestersOverTimePlot(response);
+                makeTestersOverTimePlot(response.result);
             },
             error: function(response){
                 response = {year: [2021,2021,2021], month: [3,4,5], numberOf: [0,101,7]};
