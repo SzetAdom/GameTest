@@ -7,6 +7,7 @@ package Service;
 
 import Modell.Game;
 import Repository.GameRepo;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameService {
@@ -17,7 +18,7 @@ public class GameService {
         return GameRepo.createGame(game);
     }
 
-    public static Game getGame(Integer id) {
+    public static ArrayList<String> getGame(Integer id) {
         System.out.println("------------------------");
         System.out.println("gameGet");
         return GameRepo.getGame(id);

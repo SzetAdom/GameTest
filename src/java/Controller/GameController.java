@@ -10,6 +10,7 @@ import Service.GameService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -60,7 +61,7 @@ public class GameController extends HttpServlet {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
 
-                        Game game = GameService.getGame(id);
+                        ArrayList<String> game = GameService.getGame(id);
                         result.put("result", game.toString());
 
                     } catch (Exception e) {

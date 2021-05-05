@@ -56,7 +56,7 @@ public class GameRepo {
         }
     }
 
-    public static Game getGame(Integer id) {
+    public static ArrayList<String> getGame(Integer id) {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = emf.createEntityManager();
@@ -68,6 +68,7 @@ public class GameRepo {
 
                 List<Object[]> gameObjectList = spq.getResultList();
                 Game game = null;
+                ArrayList<String> list = new ArrayList<>();
                 for (Object[] gameObject : gameObjectList) {
                     Integer gameId = Integer.parseInt(gameObject[0].toString());
                     String name = gameObject[1].toString();
@@ -76,6 +77,13 @@ public class GameRepo {
                     java.sql.Date releaseDate = java.sql.Date.valueOf(gameObject[4].toString());
                     Integer price = Integer.parseInt(gameObject[5].toString());
                     Genre genre = new Genre(0);
+                    list.add(gameId.toString());
+                    list.add(name);
+                    list.add(description);
+                    list.add(dev);
+                    list.add(gameObject[4].toString());
+                    list.add(price.toString());
+                    list.add(genre.toString());
                     if (gameObject[6] != null) {
                         genre = new Genre(gameObject[6].toString());
                     }
@@ -85,7 +93,7 @@ public class GameRepo {
                 em.close();
                 emf.close();
                 System.out.println("Game lekérdezve!");
-                return game;
+                return list;
             } catch (Exception ex) {
                 em.close();
                 emf.close();
