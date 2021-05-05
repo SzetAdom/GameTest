@@ -2,6 +2,7 @@ package Repository;
 
 import Modell.Achievement;
 import Modell.AchievementType;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -69,9 +70,9 @@ public class AchievementRepo {
                     Integer gameId = Integer.parseInt(achievementObject[1].toString());
                     String description = achievementObject[2].toString();
                     AchievementType achievementType = new AchievementType(achievementObject[3].toString());
-                    Integer prerequisite = Integer.parseInt(achievementObject[4].toString());
+//                    Integer prerequisite = Integer.parseInt(achievementObject[4].toString()); --elméletileg a prerequisite
 
-                    achievement = new Achievement(achiId, gameId, description, prerequisite, achievementType);
+                    achievement = new Achievement(achiId, gameId, description, 0, achievementType);
                 }
 
                 em.close();
@@ -91,20 +92,163 @@ public class AchievementRepo {
 
     }
 
-    public static boolean getAllAchievement(Integer id) {
-        return false;
+    public static List<Achievement> getAllAchievement() {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = emf.createEntityManager();
+
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementList");
+
+                List<Object[]> achievementObjectList = spq.getResultList();
+                List<Achievement> achievementList = new ArrayList<>();
+                for (Object[] achievementObject : achievementObjectList) {
+                    Integer achiId = Integer.parseInt(achievementObject[0].toString());
+                    Integer gameId = Integer.parseInt(achievementObject[1].toString());
+                    String description = achievementObject[2].toString();
+                    AchievementType achievementType = new AchievementType(achievementObject[3].toString());
+//                    Integer prerequisite = Integer.parseInt(achievementObject[4].toString()); --elméletileg a prerequisite
+                    Achievement achievement = new Achievement(achiId, gameId, description, 0, achievementType);
+
+                    achievementList.add(achievement);
+                }
+
+                em.close();
+                emf.close();
+                System.out.println("Achievementek lekérdezve!");
+                return achievementList;
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("getAllAchievement hiba! - " + ex.getMessage());
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return null;
+        }
     }
 
-    public static boolean getAllAchievementByGame(Integer id) {
-        return false;
+    public static List<Achievement> getAllAchievementByGame(Integer id) {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = emf.createEntityManager();
+
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementListbyGame");
+
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+
+                spq.setParameter("in_id", id);
+
+                List<Object[]> achievementObjectList = spq.getResultList();
+                List<Achievement> achievementList = new ArrayList<>();
+                for (Object[] achievementObject : achievementObjectList) {
+                    Integer achiId = Integer.parseInt(achievementObject[0].toString());
+                    Integer gameId = Integer.parseInt(achievementObject[1].toString());
+                    String description = achievementObject[2].toString();
+                    AchievementType achievementType = new AchievementType(achievementObject[3].toString());
+                    Achievement achievement = new Achievement(achiId, gameId, description, 0, achievementType);
+
+                    achievementList.add(achievement);
+                }
+
+                em.close();
+                emf.close();
+                System.out.println("Achievementek by game lekérdezve!");
+                return achievementList;
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("getAllAchievementByGame hiba! - " + ex.getMessage());
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return null;
+        }
     }
 
-    public static boolean getAllAchievementByUser(Integer id) {
-        return false;
+    public static List<Achievement> getAllAchievementByUser(Integer id) {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = emf.createEntityManager();
+
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementListbyUser");
+
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+
+                spq.setParameter("in_id", id);
+
+                List<Object[]> achievementObjectList = spq.getResultList();
+                List<Achievement> achievementList = new ArrayList<>();
+                for (Object[] achievementObject : achievementObjectList) {
+                    Integer achiId = Integer.parseInt(achievementObject[0].toString());
+                    Integer gameId = Integer.parseInt(achievementObject[1].toString());
+                    String description = achievementObject[2].toString();
+                    AchievementType achievementType = new AchievementType(achievementObject[3].toString());
+                    Achievement achievement = new Achievement(achiId, gameId, description, 0, achievementType);
+
+                    achievementList.add(achievement);
+                }
+
+                em.close();
+                emf.close();
+                System.out.println("Achievementek by user lekérdezve!");
+                return achievementList;
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("getAllAchievementByUser hiba! - " + ex.getMessage());
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return null;
+        }
     }
 
-    public static boolean getAllAchievementByUser_Game(Integer id) {
-        return false;
+    public static List<Achievement> getAllAchievementByUserGame(Integer id, Integer pGameId) {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = emf.createEntityManager();
+
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementListbyUser_Game");
+
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_game_id", Integer.class, ParameterMode.IN);
+
+                spq.setParameter("in_id", id);
+                spq.setParameter("in_game_id", pGameId);
+
+                List<Object[]> achievementObjectList = spq.getResultList();
+                List<Achievement> achievementList = new ArrayList<>();
+                for (Object[] achievementObject : achievementObjectList) {
+                    Integer achiId = Integer.parseInt(achievementObject[0].toString());
+                    Integer gameId = Integer.parseInt(achievementObject[1].toString());
+                    String description = achievementObject[2].toString();
+                    AchievementType achievementType = new AchievementType(achievementObject[3].toString());
+                    Achievement achievement = new Achievement(achiId, gameId, description, 0, achievementType);
+
+                    achievementList.add(achievement);
+                }
+
+                em.close();
+                emf.close();
+                System.out.println("Achievementek by user by game lekérdezve!");
+                return achievementList;
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("getAllAchievementByUserGame hiba! - " + ex.getMessage());
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return null;
+        }
     }
 
     public static boolean setAchievementActive(Integer id) {

@@ -2,6 +2,7 @@ package Service;
 
 import Modell.Achievement;
 import Repository.AchievementRepo;
+import java.util.List;
 
 public class AchievementService {
 
@@ -17,28 +18,28 @@ public class AchievementService {
         return AchievementRepo.getAchievement(id);
     }
 
-    public static boolean getAllAchievement(Integer id) {
+    public static List<Achievement> getAllAchievement() {
         System.out.println("------------------------");
         System.out.println("getAllAchievement");
-        return AchievementRepo.getAllAchievement(id);
+        return AchievementRepo.getAllAchievement();
     }
 
-    public static boolean getAllAchievementByGame(Integer id) {
+    public static List<Achievement> getAllAchievementByGame(Integer id) {
         System.out.println("------------------------");
         System.out.println("getAllAchievementByGame");
         return AchievementRepo.getAllAchievementByGame(id);
     }
 
-    public static boolean getAllAchievementByUser(Integer id) {
+    public static List<Achievement> getAllAchievementByUser(Integer id) {
         System.out.println("------------------------");
         System.out.println("getAllAchievementByUser");
         return AchievementRepo.getAllAchievementByUser(id);
     }
 
-    public static boolean getAllAchievementByUser_Game(Integer id) {
+    public static List<Achievement> getAllAchievementByUser_Game(Integer id, Integer gameId) {
         System.out.println("------------------------");
         System.out.println("getAllAchievementByUser_Game");
-        return AchievementRepo.getAllAchievementByUser_Game(id);
+        return AchievementRepo.getAllAchievementByUserGame(id, gameId);
     }
 
     public static boolean setAchievementActive(Integer id) {

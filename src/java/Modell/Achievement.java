@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.json.JSONObject;
 
 /**
  *
@@ -192,8 +193,17 @@ public class Achievement implements Serializable {
         return "id: " + achievementId
                 + ", game: " + gameId.toString()
                 + ", description: " + descriptionOfAchievment
-                + ", prerequisite: " + prerequisite
                 + ", type: " + achievementType.toString();
+    }
+
+    public JSONObject toJSONObject() {
+        JSONObject result = new JSONObject();
+        result.put("id", achievementId);
+        result.put("game", gameId.getGameId());
+        result.put("description", descriptionOfAchievment);
+        result.put("type", achievementType.getAchievementTypeId());
+
+        return result;
     }
 
 }

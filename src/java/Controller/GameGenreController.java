@@ -5,13 +5,17 @@
  */
 package Controller;
 
+import Service.GameGenreService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 
+@WebServlet(name = "GameGenreController", urlPatterns = {"/GameGenreController"})
 public class GameGenreController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -19,6 +23,28 @@ public class GameGenreController extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
+
+            if (request.getParameter("task").equals("linkGameGenre")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("gameId").isEmpty()
+                        && !request.getParameter("genreId").isEmpty()) {
+                    try {
+                        Integer gameId = Integer.parseInt(request.getParameter("gameId"));
+                        Integer genreId = Integer.parseInt(request.getParameter("genreId"));
+
+                        Boolean serviceResult = GameGenreService.linkGameGenre(gameId, genreId);
+
+                        result.put("result", serviceResult);
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
+                }
+                out.println(result);
+            }
 
         } catch (Exception ex) {
             System.out.println("Hiányos mezők");
