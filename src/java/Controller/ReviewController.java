@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -54,6 +55,20 @@ public class ReviewController extends HttpServlet {
                 }
                 out.println(result);
             }
+            if (request.getParameter("task").equals("reviewListbyUser")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+                        JSONArray reviewListbyUser = ReviewService.getReviewListbyUser(id);
+                        result.put("result", reviewListbyUser);
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+                    out.println(result);
+                }
+            }
+            
         }
     }
 

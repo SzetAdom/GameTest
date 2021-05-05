@@ -5,6 +5,7 @@
  */
 package Service;
 import Repository.ReviewRepo;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -23,4 +24,10 @@ public class ReviewService {
         System.out.println("getReviewsOverTime");
         return ReviewRepo.getReviewsOverTime();
     }
+    public static JSONArray getReviewListbyUser(Integer id) {
+        System.out.println("------------------------");
+        System.out.println("getReviewsOverTime");
+        return ReviewRepo.getReviewListbyUser(id);
+    }
+    
 }
