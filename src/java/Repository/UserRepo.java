@@ -377,7 +377,7 @@ public class UserRepo {
                     Integer gameId = Integer.parseInt(gameObject[0].toString());
                     String name = gameObject[1].toString();
                     
-                    Game game = new Game(id, name);
+                    Game game = new Game(gameId, name);
                     gameList.add(game);
                 }
                 em.close();
