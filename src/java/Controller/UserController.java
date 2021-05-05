@@ -81,8 +81,8 @@ public class UserController extends HttpServlet {
                         result.put("key", user.get(1));
                         result.put("username", user.get(2));
                         result.put("birthDate", user.get(3));
-                        result.put("gender", user.get(5));
-                        result.put("isAdmin", user.get(6));
+                        result.put("gender", user.get(4));
+                        result.put("isAdmin", user.get(5));
 
                     } catch (Exception e) {
                         System.out.println("Hiba a JSON adatok beolvasásakor!");
