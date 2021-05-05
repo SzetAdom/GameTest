@@ -7,6 +7,7 @@ package Controller;
 
 import Modell.Gender;
 import Modell.User;
+import Modell.Game;
 import Service.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 @WebServlet(name = "UserController", urlPatterns = {"/UserController"})
 public class UserController extends HttpServlet {
@@ -203,7 +205,34 @@ public class UserController extends HttpServlet {
                 }
                 out.println(result);
             }
+            
+            if (request.getParameter("task").equals("userListGames")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
 
+                        List<Game> games = UserService.getGamesByUser(id);
+                        JSONArray jsonArray = new JSONArray();
+                        for(Game game : games){
+                            JSONObject gameJson = new JSONObject();
+                            gameJson.put("id", game.getGameId());
+                            gameJson.put("name", game.getName());
+                            jsonArray.put(gameJson);
+                        }
+                        
+                        result.put("result", jsonArray);
+                        //result.put("id", loginResult.toString());
+                        //result.put("isAdmin", isAdminResult.toString());
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
+                }
+                out.println(result);
+            }
         }
     }
 

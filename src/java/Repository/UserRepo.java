@@ -3,6 +3,7 @@ package Repository;
 import Modell.Database;
 import Modell.Gender;
 import Modell.User;
+import Modell.Game;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -356,7 +357,43 @@ public class UserRepo {
             System.out.println("Database connection hiba! - " + e.getMessage());
             return null;
         }
+        
 
     }
+    public static List<Game> getGamesByUser(Integer id) {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = Database.getDbConn();
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("userListGames");
 
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+
+                spq.setParameter("in_id", id);
+                
+                List<Object[]> gameObjectList = spq.getResultList();
+                List<Game> gameList = new ArrayList();
+                for (Object[] gameObject : gameObjectList) {
+                    Integer gameId = Integer.parseInt(gameObject[0].toString());
+                    String name = gameObject[1].toString();
+                    
+                    Game game = new Game(id, name);
+                    gameList.add(game);
+                }
+                em.close();
+                emf.close();
+                System.out.println("Userek játékai lekérdezve!");
+                return gameList;
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("getAllUser hiba! - " + ex.getMessage());
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return null;
+        }
+    }
 }
+        

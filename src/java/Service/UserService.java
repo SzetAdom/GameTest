@@ -4,6 +4,7 @@ import Modell.User;
 import Repository.UserRepo;
 import java.util.ArrayList;
 import java.util.List;
+import Modell.Game;
 
 public class UserService {
 
@@ -70,6 +71,13 @@ public class UserService {
         System.out.println("getAllUser");
 
         return UserRepo.getAllUser();
+    }
+    
+     public static List<Game> getGamesByUser(Integer id) {
+        System.out.println("------------------------");
+        System.out.println("getGamesByUser");
+
+        return UserRepo.getGamesByUser(id);
     }
 
 }
