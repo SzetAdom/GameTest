@@ -26,7 +26,7 @@ function getJoke(){
             var myArr = JSON.parse(this.responseText);
             //console.log(myArr);
             document.getElementById("joke").innerHTML += 
-                    "<b>Logged in ID: </b>"+localStorage.getItem("id")+"<b>Daily joke: </b>" + 
+                    "<b>Daily joke: </b>" + 
                     myArr[0].setup + " " + myArr[0].punchline;
         }
     };
@@ -218,11 +218,25 @@ function choosenTester(idIN){
                             </ul>
                         </li>
                     </ul>
+                    <p>All reviews</p>
+                    <ul>
+                        <li>Game
+                            <ul>
+                                <li>Review1</li>
+                                <li>Review2</li>
+                            </ul>
+                        </li>
+                        <li>Game
+                            <ul>
+                                <li>Review1</li>
+                                <li>Review2</li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
                 <div id="choosenRight">
-                    <input type="button" id="changeAdmin" value="Change admin property" onclick="alert('TODO')"/>
-                    <input type="button" id="deleteUser" value="Delete user" onclick="alert('TODO')"/>
-                    <input type="button" id="changeAdmin" value="Change admin property" onclick="alert('TODO')"/>
+                    <input type="button" id="changeAdmin" value="Change admin property" onclick="changeAdmin(`+idIN+`)"/>
+                    <input type="button" id="deleteUser" value="Delete user" onclick="deleteUser(`+idIN+`)"/>
                 </div>
             </div>
         </main>
@@ -233,17 +247,73 @@ function choosenTester(idIN){
         type:"POST",
         data: request,
         success: function(response){
-            console.log(response);
             document.getElementById("userName").innerHTML = "Username: "+response.username;
             document.getElementById("userKey").innerHTML = "Key: "+response.key;
             document.getElementById("userID").innerHTML = "ID: "+response.id;
             document.getElementById("userBirth").innerHTML = "Born at: "+response.birthDate;
-            if(response.gender === "true") document.getElementById("userGender").innerHTML = "Sex: Male";
-            else document.getElementById("userGender").innerHTML = "Sex: Female";
-            if(response.isAdmin) document.getElementById("userAdmin").innerHTML = "Type: <b>Tester</b>";
+            if(response.gender === "genderId: 1, nameOfGender: Male") document.getElementById("userGender").innerHTML = "Sex: Male";
+            else if(response.gender === "genderId: 2, nameOfGender: Female") document.getElementById("userGender").innerHTML = "Sex: Female";
+            else document.getElementById("userGender").innerHTML = "Sex: Other";
+            if(response.isAdmin === "false") document.getElementById("userAdmin").innerHTML = "Type: <b>Tester</b>";
             else document.getElementById("userAdmin").innerHTML = "<b>Admin</b>";
         },
         error: function(response){            
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    });
+    var request = {"task" : "review"};
+}
+function changeAdmin(idIN){
+    var isAdmin = document.getElementById("userAdmin").innerHTML;
+    if(isAdmin === "<b>Admin</b>"){
+        var request = {"task" : "disableAdmin", "id" : idIN};
+        $.ajax({
+            url:"UserController",
+            type:"POST",
+            data: request,
+            success: function(response){
+                if(response.result === "true") alert("Succesfully promoted to admin");
+                else alert("Succesfully demoted to tester");
+                choosenTester(idIN);
+            },
+            error: function(response){
+                alert("Problem with the data processing");
+                console.log(response);
+            }
+        });
+    }
+    else{
+        var request = {"task" : "enableAdmin", "id" : idIN};
+        $.ajax({
+            url:"UserController",
+            type:"POST",
+            data: request,
+            success: function(response){
+                if(response.result === "true") alert("Succesfully demoted to tester");
+                else alert("Succesfully promoted to admin");
+                choosenTester(idIN);
+            },
+            error: function(response){
+                alert("Problem with the data processing");
+                console.log(response);
+            }
+        });
+    }
+}
+
+function deleteUser(idIN){
+    var request = {"task" : "setUserInactive", "id" : idIN};
+    $.ajax({
+        url:"UserController",
+        type:"POST",
+        data: request,
+        success: function(response){
+            if(response.result === true) alert("Succesfully deleted user");
+            else alert("Could not delete the user");
+            chooseTester(0);
+        },
+        error: function(response){
             alert("Problem with the data processing");
             console.log(response);
         }
