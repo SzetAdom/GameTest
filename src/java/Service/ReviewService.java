@@ -40,10 +40,22 @@ public class ReviewService {
         return ReviewRepo.getReviewListbyGame(id);
     }
 
-    public static boolean addReview(Review review) {
+    public static Boolean addReview(Review review) {
         System.out.println("------------------------");
         System.out.println("addReview");
         return ReviewRepo.addReview(review);
+    }
+
+    public static Boolean updateReview(Review review) {
+        System.out.println("------------------------");
+        System.out.println("updateReview");
+        return ReviewRepo.updateReview(review);
+    }
+
+    public static Review getReview(Integer id) {
+        System.out.println("------------------------");
+        System.out.println("getReview");
+        return ReviewRepo.getReview(id);
     }
 
 }
