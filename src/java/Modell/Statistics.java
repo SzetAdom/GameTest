@@ -68,6 +68,15 @@ public class Statistics implements Serializable {
         this.statisticsId = statisticsId;
     }
 
+    public Statistics(Integer statisticsId, Game game, User user, java.sql.Date firstPlayed, java.sql.Date lastPlayed, Integer minutes) {
+        this.statisticsId = statisticsId;
+        this.gameId = game;
+        this.userId = user;
+        this.firstPlayed = firstPlayed;
+        this.lastPlayed = lastPlayed;
+        this.playedMinutes = minutes;
+    }
+
     public Integer getStatisticsId() {
         return statisticsId;
     }
@@ -146,7 +155,12 @@ public class Statistics implements Serializable {
 
     @Override
     public String toString() {
-        return "Modell.Statistics[ statisticsId=" + statisticsId + " ]";
+        return "id: " + statisticsId
+                + ", gameName: " + gameId.getName()
+                + ", userName: " + userId.getUsername()
+                + ", firstPlayed: " + firstPlayed
+                + ", lastPlayed: " + lastPlayed
+                + ", playedMinutes: " + playedMinutes;
     }
 
 }

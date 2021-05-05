@@ -5,6 +5,9 @@
  */
 package Controller;
 
+import Modell.Game;
+import Modell.Review;
+import Modell.User;
 import Service.ReviewService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,15 +26,6 @@ import org.json.JSONObject;
 @WebServlet(name = "ReviewController", urlPatterns = {"/ReviewController"})
 public class ReviewController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
@@ -70,7 +64,7 @@ public class ReviewController extends HttpServlet {
                     out.println(result);
                 }
             }
-            
+
             if (request.getParameter("task").equals("reviewListbyGame")) {
                 JSONObject result = new JSONObject();
                 if (!request.getParameter("id").isEmpty()) {
@@ -84,7 +78,33 @@ public class ReviewController extends HttpServlet {
                     out.println(result);
                 }
             }
-            
+
+            if (request.getParameter("task").equals("addReview")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("userId").isEmpty()
+                        && !request.getParameter("gameId").isEmpty()
+                        && !request.getParameter("score").isEmpty()
+                        && !request.getParameter("comment").isEmpty()) {
+                    try {
+                        Integer userId = Integer.parseInt(request.getParameter("userId"));
+                        Integer gameId = Integer.parseInt(request.getParameter("gameId"));
+                        Integer score = Integer.parseInt(request.getParameter("score"));
+                        String comment = request.getParameter("comment");
+
+                        Review review = new Review(new User(userId), new Game(gameId), score, comment);
+                        Boolean serviceResult = ReviewService.addReview(review);
+                        result.put("result", serviceResult);
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
+                }
+                out.println(result);
+            }
+
         }
     }
 

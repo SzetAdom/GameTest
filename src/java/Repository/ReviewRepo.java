@@ -6,6 +6,7 @@
 package Repository;
 
 import Modell.Database;
+import Modell.Review;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ReviewRepo {
+
     public static JSONObject getScoreDistribution() {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
@@ -50,6 +52,7 @@ public class ReviewRepo {
             return null;
         }
     }
+
     public static JSONObject getReviewsOverTime() {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
@@ -89,6 +92,7 @@ public class ReviewRepo {
             return null;
         }
     }
+
     public static JSONArray getReviewListbyUser(Integer id) {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
@@ -97,13 +101,13 @@ public class ReviewRepo {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("reviewListbyUser");
                 spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
                 spq.setParameter("in_id", id);
-                
+
                 List<Object[]> reviewListbyUserObjectList = spq.getResultList();
-                
+
                 JSONArray reviewListbyUser = new JSONArray();
                 for (Object[] reviewListbyUserObject : reviewListbyUserObjectList) {
                     JSONObject review = new JSONObject();
-                    
+
                     Integer reviewId = Integer.parseInt(reviewListbyUserObject[0].toString());
                     Integer userId = Integer.parseInt(reviewListbyUserObject[1].toString());
                     Integer gameId = Integer.parseInt(reviewListbyUserObject[2].toString());
@@ -112,7 +116,7 @@ public class ReviewRepo {
                     Integer score = Integer.parseInt(reviewListbyUserObject[5].toString());
                     String comment = reviewListbyUserObject[6].toString();
                     String createdId = reviewListbyUserObject[7].toString();
-                    
+
                     review.put("reviewId", reviewId);
                     review.put("userId", userId);
                     review.put("gameId", gameId);
@@ -121,7 +125,7 @@ public class ReviewRepo {
                     review.put("score", score);
                     review.put("comment", comment);
                     review.put("createdId", createdId);
-                    
+
                     reviewListbyUser.put(review);
                 }
 
@@ -140,6 +144,7 @@ public class ReviewRepo {
             return null;
         }
     }
+
     public static JSONArray getReviewListbyGame(Integer id) {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
@@ -148,13 +153,13 @@ public class ReviewRepo {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("reviewListbyGame");
                 spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
                 spq.setParameter("in_id", id);
-                
+
                 List<Object[]> reviewListbyGameObjectList = spq.getResultList();
-                
+
                 JSONArray reviewListbyGame = new JSONArray();
                 for (Object[] reviewListbyGameObject : reviewListbyGameObjectList) {
                     JSONObject review = new JSONObject();
-                    
+
                     Integer reviewId = Integer.parseInt(reviewListbyGameObject[0].toString());
                     Integer userId = Integer.parseInt(reviewListbyGameObject[1].toString());
                     Integer gameId = Integer.parseInt(reviewListbyGameObject[2].toString());
@@ -163,7 +168,7 @@ public class ReviewRepo {
                     Integer score = Integer.parseInt(reviewListbyGameObject[5].toString());
                     String comment = reviewListbyGameObject[6].toString();
                     String createdId = reviewListbyGameObject[7].toString();
-                    
+
                     review.put("reviewId", reviewId);
                     review.put("userId", userId);
                     review.put("gameId", gameId);
@@ -172,7 +177,7 @@ public class ReviewRepo {
                     review.put("score", score);
                     review.put("comment", comment);
                     review.put("createdId", createdId);
-                    
+
                     reviewListbyGame.put(review);
                 }
 
@@ -191,6 +196,41 @@ public class ReviewRepo {
             return null;
         }
     }
-    
-    
+
+    public static boolean addReview(Review review) {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = emf.createEntityManager();
+
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("reviewCreate");
+                spq.registerStoredProcedureParameter("in_user", Integer.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_game", Integer.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_score", Integer.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_comment", String.class, ParameterMode.IN);
+
+                spq.setParameter("in_user", review.getUserId().getUserId());
+                spq.setParameter("in_game", review.getGameId().getGameId());
+                spq.setParameter("in_score", review.getScore());
+                spq.setParameter("in_comment", review.getComment());
+
+                spq.execute();
+                em.close();
+                emf.close();
+                System.out.println("Review sikeresen hozzáadva!");
+                return true;
+
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("createReview Hiba! - " + ex.getMessage());
+                return false;
+            }
+        } catch (Exception ex) {
+            System.out.println("Database connection hiba! - " + ex.getMessage());
+            return false;
+        }
+
+    }
+
 }

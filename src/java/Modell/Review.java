@@ -67,6 +67,17 @@ public class Review implements Serializable {
         this.reviewId = reviewId;
     }
 
+    public Review(Integer reviewId, User user, Game game, Integer score, String comment, java.sql.Date createdId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Review(User user, Game game, Integer score, String comment) {
+        this.userId = user;
+        this.gameId = game;
+        this.score = score;
+        this.comment = comment;
+    }
+
     public Integer getReviewId() {
         return reviewId;
     }
@@ -145,7 +156,14 @@ public class Review implements Serializable {
 
     @Override
     public String toString() {
-        return "Modell.Review[ reviewId=" + reviewId + " ]";
+        return "id: " + reviewId
+                + ", userId: " + userId.getUserId()
+                + ", userName: " + userId.getUsername()
+                + ", gameId: " + gameId.getGameId()
+                + ", gameName: " + gameId.getName()
+                + ", score: " + score
+                + ", comment: " + comment
+                + ", createdAt: " + createdAt;
     }
 
 }
