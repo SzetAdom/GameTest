@@ -12,6 +12,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.ParameterMode;
 import javax.persistence.Persistence;
 import javax.persistence.StoredProcedureQuery;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class UserRepo {
 
@@ -395,5 +397,48 @@ public class UserRepo {
             return null;
         }
     }
+    
+    public static JSONObject getTestersOverTime() {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = Database.getDbConn();
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("testersOverTime");
+                
+                List<Object[]> testersOverTimeObjectList = spq.getResultList();
+                
+                JSONObject testersOverTime = new JSONObject();
+                
+                JSONArray yearArray = new JSONArray();
+                JSONArray monthArray = new JSONArray();
+                JSONArray numberOfArray = new JSONArray();
+                for (Object[] testersOverTimeObject : testersOverTimeObjectList) {
+                    Integer year = Integer.parseInt(testersOverTimeObject[0].toString());
+                    Integer month = Integer.parseInt(testersOverTimeObject[1].toString());
+                    Integer numberOf = Integer.parseInt(testersOverTimeObject[2].toString());
+                    yearArray.put(year);
+                    monthArray.put(month);
+                    numberOfArray.put(numberOf);
+                }
+                testersOverTime.put("year", yearArray);
+                testersOverTime.put("month", monthArray);
+                testersOverTime.put("numberOf", numberOfArray);
+                
+                em.close();
+                emf.close();
+                System.out.println("Userek játékai lekérdezve!");
+                return testersOverTime;
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("getAllUser hiba! - " + ex.getMessage());
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return null;
+        }
+    }
+    
 }
         

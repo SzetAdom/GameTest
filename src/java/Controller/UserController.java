@@ -233,6 +233,19 @@ public class UserController extends HttpServlet {
                 }
                 out.println(result);
             }
+            if (request.getParameter("task").equals("getTestersOverTime")) {
+                JSONObject result = new JSONObject();
+                try {
+                    JSONObject testersOverTime = UserService.getTestersOverTime();
+
+                    result.put("result", testersOverTime);
+                    //result.put("id", loginResult.toString());
+                    //result.put("isAdmin", isAdminResult.toString());
+                } catch (Exception e) {
+                    System.out.println("Hiba a JSON adatok beolvasásakor!");
+                }
+                out.println(result);
+            }
         }
     }
 

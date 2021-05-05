@@ -5,6 +5,8 @@ import Repository.UserRepo;
 import java.util.ArrayList;
 import java.util.List;
 import Modell.Game;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class UserService {
 
@@ -73,11 +75,19 @@ public class UserService {
         return UserRepo.getAllUser();
     }
     
-     public static List<Game> getGamesByUser(Integer id) {
+    public static List<Game> getGamesByUser(Integer id) {
         System.out.println("------------------------");
         System.out.println("getGamesByUser");
 
         return UserRepo.getGamesByUser(id);
     }
+    
+    public static JSONObject getTestersOverTime() {
+        System.out.println("------------------------");
+        System.out.println("getTestersOverTime");
+
+        return UserRepo.getTestersOverTime();
+    }
+     
 
 }
