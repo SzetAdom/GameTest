@@ -209,8 +209,6 @@ function choosenTester(idIN){
                     </ul>
                     <p>All reviews</p>
                     <ul id="reviewList">
-                        <li>Game1: Review1</li>
-                        <li>Game1: Review1</li>
                     </ul>
                 </div>
                 <div id="choosenRight">
@@ -273,7 +271,24 @@ function choosenTester(idIN){
             console.log(response);
         }
     });
-    var request = {"task" : "review"};    
+    var request = {"task" : "reviewListbyUser", "id" : idIN};
+    $.ajax({
+        url:"ReviewController",
+        type:"POST",
+        data: request,
+        success: function(response){
+            console.log(response);
+            for(var i=0; i<response.result.length;i++){
+                document.getElementById("reviewList").innerHTML += "<li>On " + response.result[i].gameName 
+                    + ": " + response.result[i].comment 
+                    + ". (" + response.result[i].score + ")</li>";
+            }
+        },
+        error: function(response){            
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    });
 }
 
 function choosenGame(idIN){
@@ -290,7 +305,7 @@ function choosenGame(idIN){
                     <p id="devGame"></p>
                     <p id="price"></p>
                     <p>All achievements</p>
-                    <ul id="gameList">
+                    <ul id="achiList">
                         
                     </ul>
                     <p>All reviews</p>
@@ -301,7 +316,7 @@ function choosenGame(idIN){
                 </div>
                 <div id="choosenRight">
                     <input type="button" id="addAchi" value="Add a new achievement" onclick="alert('TODO')"/>
-                    <input type="button" id="deleteGame" value="Delete game" onclick="alert('TODO')"/>
+                    <input type="button" id="deleteGame" value="Delete game" onclick="deleteGame(`+idIN+`)"/>
                 </div>
             </div>
         </main>
@@ -314,13 +329,46 @@ function choosenGame(idIN){
         success: function(response){
             response = response.result.split("[",2);
             response = response[1].split(",",8);
-            console.log(response);
+            //console.log(response);
             document.getElementById("gameName").innerHTML = response[1];
             document.getElementById("gameID").innerHTML = "<b>ID: </b>"+response[0];
             document.getElementById("releaseDate").innerHTML = "Release date: "+response[4];
             document.getElementById("descGame").innerHTML = "Description: "+response[2];
             document.getElementById("devGame").innerHTML = "Dev: "+response[3];
             document.getElementById("price").innerHTML = "Price: "+response[5];
+        },
+        error: function(response){            
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    });
+    request = {"task" : "getAllAchievementByGame", "id" : idIN};
+    $.ajax({
+        url:"AchievementController",
+        type:"POST",
+        data: request,
+        success: function(response){
+            console.log(response);
+            for(var i=0; i < response.result.length; i++){
+                document.getElementById("achiList").innerHTML += "<li>"+response.result[i].descriptionOfAchievment + " ( " + response.result[i].achievementType.nameOfAchievementType + " )</li>";
+            }
+        },
+        error: function(response){            
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    });
+    request = {"task" : ""};
+}
+function deleteGame(idIN){
+    var request = {"task" : "setGameInactive", "id" : idIN};
+    $.ajax({
+        url:"GameController",
+        type:"POST",
+        data: request,
+        success: function(response){
+            chooseGame(0);
+            alert("Succesfully deleted the game");
         },
         error: function(response){            
             alert("Problem with the data processing");
