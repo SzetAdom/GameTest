@@ -205,6 +205,9 @@ function loadAchievementsForGame(){
         data: request,
         success: function(response){
             const achievementsOfGame = document.querySelector("#achievementsOfGame")
+            while (achievementsOfGame.childElementCount > 1) {
+                achievementsOfGame.removeChild(achievementsOfGame.lastChild);
+            }
             response.result.forEach(function(achievement){
                 const select = document.createElement("option")
                 select.value = achievement.achievementId
