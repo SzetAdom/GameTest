@@ -6,7 +6,9 @@
 package Repository;
 
 import Modell.Database;
+import Modell.Game;
 import Modell.Review;
+import Modell.User;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -229,6 +231,95 @@ public class ReviewRepo {
         } catch (Exception ex) {
             System.out.println("Database connection hiba! - " + ex.getMessage());
             return false;
+        }
+
+    }
+
+    public static Boolean updateReview(Review review) {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = emf.createEntityManager();
+
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("reviewUpdate");
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_score", Integer.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_comment", String.class, ParameterMode.IN);
+
+                spq.setParameter("in_id", review.getReviewId());
+                spq.setParameter("in_score", review.getScore());
+                spq.setParameter("in_comment", review.getComment());
+
+                spq.execute();
+                em.close();
+                emf.close();
+                System.out.println("Review sikeresen frissítve!");
+                return true;
+
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("updateReview Hiba! - " + ex.getMessage());
+                return false;
+            }
+        } catch (Exception ex) {
+            System.out.println("Database connection hiba! - " + ex.getMessage());
+            return false;
+        }
+
+    }
+
+    public static Review getReview(Integer id) {
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            EntityManager em = emf.createEntityManager();
+
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("reviewGet");
+
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
+
+                spq.setParameter("in_id", id);
+
+                List<Object[]> reviewObjectList = spq.getResultList();
+                Review review = null;
+                for (Object[] reviewObject : reviewObjectList) {
+
+                    Integer reviewId = Integer.parseInt(reviewObject[0].toString());
+                    Integer userId = Integer.parseInt(reviewObject[1].toString());
+                    Integer gameId = Integer.parseInt(reviewObject[2].toString());
+                    String userName = reviewObject[3].toString();
+                    String gameName = reviewObject[4].toString();
+                    Integer score = Integer.parseInt(reviewObject[5].toString());
+                    String comment = reviewObject[6].toString();
+                    String createdAtString = reviewObject[7].toString();
+
+                    User user = new User(userId);
+                    user.setUsername(userName);
+
+                    Game game = new Game(gameId);
+                    game.setName(gameName);
+
+//                    Date createdAt = null;
+//                    if (createdAtString != null) {
+//                        createdAt = Date.valueOf(createdAtString);
+//                    }
+                    review = new Review(reviewId, user, game, score, comment, null);
+                }
+
+                em.close();
+                emf.close();
+                System.out.println("Review lekérdezve!");
+                return review;
+            } catch (Exception ex) {
+                em.close();
+                emf.close();
+                System.out.println("getReview hiba! - " + ex.getMessage());
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return null;
         }
 
     }

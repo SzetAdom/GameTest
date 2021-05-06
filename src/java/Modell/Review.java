@@ -67,13 +67,24 @@ public class Review implements Serializable {
         this.reviewId = reviewId;
     }
 
-    public Review(Integer reviewId, User user, Game game, Integer score, String comment, java.sql.Date createdId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Review(Integer reviewId, User user, Game game, Integer score, String comment, Date createdAt) {
+        this.reviewId = reviewId;
+        this.userId = user;
+        this.gameId = game;
+        this.score = score;
+        this.comment = comment;
+        this.createdAt = createdAt;
     }
 
     public Review(User user, Game game, Integer score, String comment) {
         this.userId = user;
         this.gameId = game;
+        this.score = score;
+        this.comment = comment;
+    }
+
+    public Review(Integer id, Integer score, String comment) {
+        this.reviewId = id;
         this.score = score;
         this.comment = comment;
     }

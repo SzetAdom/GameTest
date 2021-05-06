@@ -105,6 +105,49 @@ public class ReviewController extends HttpServlet {
                 out.println(result);
             }
 
+            if (request.getParameter("task").equals("updateReview")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()
+                        && !request.getParameter("score").isEmpty()
+                        && !request.getParameter("comment").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+                        Integer score = Integer.parseInt(request.getParameter("score"));
+                        String comment = request.getParameter("comment");
+
+                        Review review = new Review(id, score, comment);
+                        Boolean serviceResult = ReviewService.updateReview(review);
+                        result.put("result", serviceResult);
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
+                }
+                out.println(result);
+            }
+
+            if (request.getParameter("task").equals("getReview")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("id").isEmpty()) {
+                    try {
+                        Integer id = Integer.parseInt(request.getParameter("id"));
+
+                        Review serviceResult = ReviewService.getReview(id);
+                        result.put("result", serviceResult);
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
+                }
+                out.println(result);
+            }
+
         }
     }
 
