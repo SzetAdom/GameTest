@@ -1,6 +1,7 @@
 package Repository;
 
 import Modell.AchievementType;
+import Modell.Database;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -13,8 +14,8 @@ public class AchievementTypeRepo {
 
     public static boolean addAchievementType(String name) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
 
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementTypeCreate");
@@ -26,14 +27,14 @@ public class AchievementTypeRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Achievement sikeresen hozzáadva!");
                 return true;
 
             } catch (Exception ex) {
 
                 em.close();
-                emf.close();
+                
                 System.out.println("addAchievementType Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -47,8 +48,8 @@ public class AchievementTypeRepo {
 
     public static List<AchievementType> getAllAchievementType() {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementTypeList");
 
@@ -64,13 +65,13 @@ public class AchievementTypeRepo {
 
                 spq.execute();
                 em.close();
-                emf.close();
+                
                 System.out.println("Achievementek sikeresen lekérve!");
                 return achievementList;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllAchievementType Hiba! - " + ex.getMessage());
                 return null;
             }

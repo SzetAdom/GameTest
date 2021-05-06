@@ -19,7 +19,6 @@ public class UserRepo {
 
     public static Integer getUserByKey(String key) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("Login");
@@ -35,11 +34,9 @@ public class UserRepo {
                 }
 
                 em.close();
-                emf.close();
                 return id;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
                 System.out.println("getUserByKey hiba! - " + ex.getMessage());
                 return 0;
             }
@@ -52,7 +49,6 @@ public class UserRepo {
 
     public static Boolean isUserAdmin(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("userIsAdmin");
@@ -67,11 +63,9 @@ public class UserRepo {
                     System.out.println("Admin jog lekérdezve!");
                 }
                 em.close();
-                emf.close();
                 return isAdmin;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
                 System.out.println("getUserByKey hiba! - " + ex.getMessage());
                 return null;
             }
@@ -84,7 +78,6 @@ public class UserRepo {
 
     public static String userCreate(User user) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
             try {
 
@@ -103,13 +96,11 @@ public class UserRepo {
                 }
                 System.out.println(userObjectList);
                 em.close();
-                emf.close();
                 System.out.println("Felhasználó sikeresen hozzáadva!");
                 return response;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
                 System.out.println("userAdd Hiba! - " + ex.getMessage());
                 return "";
             }
@@ -122,7 +113,6 @@ public class UserRepo {
 
     public static ArrayList<String> getUser(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("userGet");
@@ -151,12 +141,10 @@ public class UserRepo {
                 }
 
                 em.close();
-                emf.close();
                 System.out.println("User lekérdezve!");
                 return list;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
                 System.out.println("userGet hiba! - " + ex.getMessage());
                 return null;
             }
@@ -169,7 +157,7 @@ public class UserRepo {
 
     public static Boolean updateUser(User user) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("userUpdate");
@@ -186,13 +174,13 @@ public class UserRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Felhasználó sikeresen frissítve!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("userUpdate Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -205,7 +193,6 @@ public class UserRepo {
 
     public static Boolean disableAdmin(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("userDisableAdmin");
@@ -217,13 +204,11 @@ public class UserRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
                 System.out.println("Admin jogok sikeresen megvonva!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
                 System.out.println("disableAdmin Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -236,7 +221,7 @@ public class UserRepo {
 
     public static Boolean enableAdmin(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("userEnableAdmin");
@@ -248,13 +233,13 @@ public class UserRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Admin jogok sikeresen hozzáadva!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("enableAdmin Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -266,7 +251,7 @@ public class UserRepo {
 
     public static Boolean setUserActive(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("userSetActive");
@@ -278,13 +263,13 @@ public class UserRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("User aktiv sikeres!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("setUserActive Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -296,7 +281,7 @@ public class UserRepo {
 
     public static Boolean setUserInactive(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("userSetInactive");
@@ -308,13 +293,13 @@ public class UserRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("User inaktiv sikeres!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("setUserInactive Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -327,7 +312,7 @@ public class UserRepo {
 
     public static List<User> getAllUser() {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("userList");
@@ -346,12 +331,12 @@ public class UserRepo {
                     userList.add(user);
                 }
                 em.close();
-                emf.close();
+                
                 System.out.println("Userek lekérdezve!");
                 return userList;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllUser hiba! - " + ex.getMessage());
                 return null;
             }
@@ -364,7 +349,6 @@ public class UserRepo {
     }
     public static List<Game> getGamesByUser(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("userListGames");
@@ -383,12 +367,12 @@ public class UserRepo {
                     gameList.add(game);
                 }
                 em.close();
-                emf.close();
+                
                 System.out.println("Userek játékai lekérdezve!");
                 return gameList;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllUser hiba! - " + ex.getMessage());
                 return null;
             }
@@ -400,7 +384,7 @@ public class UserRepo {
     
     public static JSONObject getTestersOverTime() {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("testersOverTime");
@@ -425,12 +409,12 @@ public class UserRepo {
                 testersOverTime.put("numberOf", numberOfArray);
                 
                 em.close();
-                emf.close();
+                
                 System.out.println("Userek játékai lekérdezve!");
                 return testersOverTime;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllUser hiba! - " + ex.getMessage());
                 return null;
             }

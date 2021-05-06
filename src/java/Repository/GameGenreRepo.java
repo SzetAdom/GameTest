@@ -1,5 +1,6 @@
 package Repository;
 
+import Modell.Database;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.ParameterMode;
@@ -10,8 +11,8 @@ public class GameGenreRepo {
 
     public static Boolean linkGameGenre(Integer gameId, Integer genreId) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("Link_game_genre");
 
@@ -26,13 +27,13 @@ public class GameGenreRepo {
 
                 spq.execute();
                 em.close();
-                emf.close();
+                
                 System.out.println("Link game és genre között sikeresen hozzáadva!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("linkGameGenre Hiba! - " + ex.getMessage());
                 return false;
             }

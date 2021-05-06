@@ -7,6 +7,7 @@ package Repository;
 
 import Modell.Game;
 import Modell.Genre;
+import Modell.Database;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,8 +21,8 @@ public class GameRepo {
 
     public static Boolean createGame(Game game) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("gameCreate");
 
@@ -40,13 +41,13 @@ public class GameRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Game sikeresen hozzáadva!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("createGame Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -58,8 +59,8 @@ public class GameRepo {
 
     public static ArrayList<String> getGame(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("gameGet");
 
@@ -91,12 +92,12 @@ public class GameRepo {
                 }
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Game lekérdezve!");
                 return list;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getGame hiba! - " + ex.getMessage());
                 return null;
             }
@@ -108,8 +109,8 @@ public class GameRepo {
 
     public static List<Game> getAllGame() {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("gameList");
 
@@ -131,12 +132,12 @@ public class GameRepo {
                     gameList.add(game);
                 }
                 em.close();
-                emf.close();
+                
                 System.out.println("Gamek lekérdezve!");
                 return gameList;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("gameList hiba! - " + ex.getMessage());
                 return null;
             }
@@ -148,8 +149,8 @@ public class GameRepo {
 
     public static Boolean setGameActive(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("gameSetActive");
 
@@ -159,13 +160,13 @@ public class GameRepo {
 
                 spq.execute();
                 em.close();
-                emf.close();
+                
                 System.out.println("Game aktiv sikeres!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("gameSetActive Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -178,8 +179,8 @@ public class GameRepo {
 
     public static Boolean gameSetInactive(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
 
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("gameSetInactive");
@@ -191,13 +192,13 @@ public class GameRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Game inaktiv sikeres!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("gameSetInactive Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -210,8 +211,8 @@ public class GameRepo {
 
     public static Boolean updateGame(Game game) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("gameUpdate");
 
@@ -230,13 +231,13 @@ public class GameRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Game sikeresen frissítve!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("updateGame Hiba! - " + ex.getMessage());
                 return false;
             }

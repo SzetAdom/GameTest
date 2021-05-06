@@ -14,7 +14,7 @@ public class GenreRepo {
 
     public static Boolean addGenre(String name) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("genreCreate");
@@ -26,13 +26,13 @@ public class GenreRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Genre sikeresen hozzáadva!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("addGenre Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -44,7 +44,7 @@ public class GenreRepo {
 
     public static List<Genre> getAllGenre() {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("genreList");
@@ -60,12 +60,12 @@ public class GenreRepo {
                 }
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Genre-k lekérdezve!");
                 return genreList;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllGenre hiba! - " + ex.getMessage());
                 return null;
             }
@@ -77,7 +77,7 @@ public class GenreRepo {
 
     public static Boolean setGenreActive(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("genreSetActive");
@@ -89,7 +89,7 @@ public class GenreRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Genre aktiv sikeres!");
                 return true;
 
@@ -106,7 +106,7 @@ public class GenreRepo {
 
     public static Boolean setGenreInactive(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("genreSetInactive");
@@ -118,7 +118,7 @@ public class GenreRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Genre inaktiv sikeres!");
                 return true;
 
@@ -135,7 +135,7 @@ public class GenreRepo {
 
     public static Boolean updateGenre(Genre gender) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("genreUpdate");
@@ -149,7 +149,7 @@ public class GenreRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Genre sikeresen frissítve!");
                 return true;
 

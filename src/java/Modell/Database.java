@@ -5,10 +5,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class Database {
-
+    static EntityManagerFactory emf = null;
     public static EntityManager getDbConn() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-        EntityManager em = emf.createEntityManager();
-        return em;
+        if(emf == null){
+            emf = Persistence.createEntityManagerFactory("GameTestPU");
+        }
+        return emf.createEntityManager();
     }
 }

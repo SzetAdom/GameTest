@@ -22,7 +22,7 @@ public class ReviewRepo {
 
     public static JSONObject getScoreDistribution() {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("reviewScoreDistribution");
@@ -40,12 +40,12 @@ public class ReviewRepo {
                 scoreDistribution.put("score", scoreArray);
                 scoreDistribution.put("numberOf", numberOfArray);
                 em.close();
-                emf.close();
+                
                 System.out.println("Review score eloszlás lekérdezve!");
                 return scoreDistribution;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllUser hiba! - " + ex.getMessage());
                 return null;
             }
@@ -57,7 +57,7 @@ public class ReviewRepo {
 
     public static JSONObject getReviewsOverTime() {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("reviewsOverTime");
@@ -80,12 +80,12 @@ public class ReviewRepo {
                 reviewsOverTime.put("numberOf", numberOfArray);
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Review over time lekérdezve!");
                 return reviewsOverTime;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllUser hiba! - " + ex.getMessage());
                 return null;
             }
@@ -97,7 +97,7 @@ public class ReviewRepo {
 
     public static JSONArray getReviewListbyUser(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("reviewListbyUser");
@@ -132,12 +132,12 @@ public class ReviewRepo {
                 }
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Review over time lekérdezve!");
                 return reviewListbyUser;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllUser hiba! - " + ex.getMessage());
                 return null;
             }
@@ -149,7 +149,7 @@ public class ReviewRepo {
 
     public static JSONArray getReviewListbyGame(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("reviewListbyGame");
@@ -184,12 +184,12 @@ public class ReviewRepo {
                 }
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Review over time lekérdezve!");
                 return reviewListbyGame;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllUser hiba! - " + ex.getMessage());
                 return null;
             }
@@ -201,8 +201,8 @@ public class ReviewRepo {
 
     public static boolean addReview(Review review) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
 
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("reviewCreate");
@@ -218,13 +218,13 @@ public class ReviewRepo {
 
                 spq.execute();
                 em.close();
-                emf.close();
+                
                 System.out.println("Review sikeresen hozzáadva!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("createReview Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -237,8 +237,8 @@ public class ReviewRepo {
 
     public static Boolean updateReview(Review review) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
 
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("reviewUpdate");
@@ -252,13 +252,13 @@ public class ReviewRepo {
 
                 spq.execute();
                 em.close();
-                emf.close();
+                
                 System.out.println("Review sikeresen frissítve!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("updateReview Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -271,8 +271,8 @@ public class ReviewRepo {
 
     public static Review getReview(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
 
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("reviewGet");
@@ -308,12 +308,12 @@ public class ReviewRepo {
                 }
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Review lekérdezve!");
                 return review;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getReview hiba! - " + ex.getMessage());
                 return null;
             }

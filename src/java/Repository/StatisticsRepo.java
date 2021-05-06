@@ -1,5 +1,6 @@
 package Repository;
 
+import Modell.Database;
 import Modell.Game;
 import Modell.Statistics;
 import Modell.User;
@@ -16,8 +17,8 @@ public class StatisticsRepo {
 
     public static List<Object[]> getAllStatisticsByUser(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
 
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("statisticsListbyUser");
@@ -57,12 +58,12 @@ public class StatisticsRepo {
                 }*/
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Statistics by user lekérdezve!");
                 return statisticsObjectList;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllAchievementByUser hiba! - " + ex.getMessage());
                 return null;
             }

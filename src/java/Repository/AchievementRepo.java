@@ -2,6 +2,7 @@ package Repository;
 
 import Modell.Achievement;
 import Modell.AchievementType;
+import Modell.Database;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -14,8 +15,8 @@ public class AchievementRepo {
 
     public static boolean createAchievement(Achievement achievement) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
 
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementCreate");
@@ -31,13 +32,13 @@ public class AchievementRepo {
 
                 spq.execute();
                 em.close();
-                emf.close();
+                
                 System.out.println("Achievement sikeresen hozzáadva!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("createAchievement Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -53,8 +54,8 @@ public class AchievementRepo {
         /*
          */
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
 
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementGet");
@@ -76,12 +77,12 @@ public class AchievementRepo {
                 }
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Achievement lekérdezve!");
                 return achievement;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAchievement hiba! - " + ex.getMessage());
                 return null;
             }
@@ -94,8 +95,8 @@ public class AchievementRepo {
 
     public static List<Achievement> getAllAchievement() {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
 
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementList");
@@ -114,12 +115,12 @@ public class AchievementRepo {
                 }
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Achievementek lekérdezve!");
                 return achievementList;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllAchievement hiba! - " + ex.getMessage());
                 return null;
             }
@@ -131,8 +132,8 @@ public class AchievementRepo {
 
     public static List<Achievement> getAllAchievementByGame(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
 
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementListbyGame");
@@ -154,12 +155,12 @@ public class AchievementRepo {
                 }
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Achievementek by game lekérdezve!");
                 return achievementList;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllAchievementByGame hiba! - " + ex.getMessage());
                 return null;
             }
@@ -171,8 +172,8 @@ public class AchievementRepo {
 
     public static List<Achievement> getAllAchievementByUser(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
 
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementListbyUser");
@@ -194,12 +195,12 @@ public class AchievementRepo {
                 }
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Achievementek by user lekérdezve!");
                 return achievementList;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllAchievementByUser hiba! - " + ex.getMessage());
                 return null;
             }
@@ -211,8 +212,8 @@ public class AchievementRepo {
 
     public static List<Achievement> getAllAchievementByUserGame(Integer id, Integer pGameId) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
 
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementListbyUser_Game");
@@ -236,12 +237,12 @@ public class AchievementRepo {
                 }
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Achievementek by user by game lekérdezve!");
                 return achievementList;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllAchievementByUserGame hiba! - " + ex.getMessage());
                 return null;
             }
@@ -253,8 +254,8 @@ public class AchievementRepo {
 
     public static boolean setAchievementActive(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementSetActive");
 
@@ -265,13 +266,13 @@ public class AchievementRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Achievement aktiv!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("setAchievementActive Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -283,8 +284,8 @@ public class AchievementRepo {
 
     public static boolean setAchievementInactive(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementSetInactive");
 
@@ -295,13 +296,13 @@ public class AchievementRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Achievement inaktiv!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("setAchievementInactive Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -313,8 +314,8 @@ public class AchievementRepo {
 
     public static boolean updateAchievement(Achievement achievement) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("achievementUpdate");
 
@@ -333,13 +334,13 @@ public class AchievementRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Achievement sikeresen frissítve!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("updateAchievement Hiba! - " + ex.getMessage());
                 return false;
             }

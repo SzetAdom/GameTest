@@ -16,7 +16,7 @@ public class GenderRepo {
 
     public static Boolean createGender(String nameOfGender) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("genderCreate");
@@ -28,13 +28,13 @@ public class GenderRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Gender sikeresen hozzáadva!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("nameOfGender Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -47,7 +47,7 @@ public class GenderRepo {
 
     public static Boolean updateGender(Gender gender) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
 
             try {
@@ -61,13 +61,13 @@ public class GenderRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Gender sikeresen frissítve!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("genderUpdate Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -79,7 +79,7 @@ public class GenderRepo {
 
     public static List<Gender> getAllGender() {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("genderList");
@@ -93,12 +93,12 @@ public class GenderRepo {
                     genderList.add(gender);
                 }
                 em.close();
-                emf.close();
+                
                 System.out.println("Genderek lekérdezve!");
                 return genderList;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllGender hiba! - " + ex.getMessage());
                 return null;
             }
@@ -110,7 +110,7 @@ public class GenderRepo {
 
     public static Boolean setGenderActive(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("genderSetActive");
@@ -122,14 +122,14 @@ public class GenderRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Gender aktiv sikeres!");
                 return true;
 
             } catch (Exception ex) {
 
                 em.close();
-                emf.close();
+                
                 System.out.println("setGenderActive Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -143,7 +143,7 @@ public class GenderRepo {
 
     public static Boolean setGenderInactive(Integer id) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("genderSetInactive");
@@ -155,13 +155,13 @@ public class GenderRepo {
                 spq.execute();
 
                 em.close();
-                emf.close();
+                
                 System.out.println("Gender inaktiv sikeres!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("setGenderActive Hiba! - " + ex.getMessage());
                 return false;
             }
@@ -173,7 +173,7 @@ public class GenderRepo {
     }
     public static JSONObject getGenderDistribution() {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
+            
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("genderDistribution");
@@ -191,12 +191,12 @@ public class GenderRepo {
                 genderDistribution.put("gender", genderArray);
                 genderDistribution.put("numberOf", numberOfArray);
                 em.close();
-                emf.close();
+                
                 System.out.println("Review score eloszlás lekérdezve!");
                 return genderDistribution;
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("getAllUser hiba! - " + ex.getMessage());
                 return null;
             }

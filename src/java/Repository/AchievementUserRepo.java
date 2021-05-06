@@ -1,5 +1,6 @@
 package Repository;
 
+import Modell.Database;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.ParameterMode;
@@ -10,8 +11,8 @@ public class AchievementUserRepo {
 
     public static Boolean linkAchievementUser(Integer userId, Integer achiId) {
         try {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
-            EntityManager em = emf.createEntityManager();
+            
+            EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("Link_achievement_user");
 
@@ -23,13 +24,13 @@ public class AchievementUserRepo {
 
                 spq.execute();
                 em.close();
-                emf.close();
+                
                 System.out.println("Link user és achi között sikeresen hozzáadva!");
                 return true;
 
             } catch (Exception ex) {
                 em.close();
-                emf.close();
+                
                 System.out.println("Link_achievement_user Hiba! - " + ex.getMessage());
                 return false;
             }
