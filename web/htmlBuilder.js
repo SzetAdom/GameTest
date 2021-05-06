@@ -82,6 +82,15 @@ function setupAdminAside(){
                     <input type="button" value="Check charts" name="checkCharts" onclick="checkCharts()" />
                 </li>
                 <li>
+                    <input type="button" value="Add Progress" name="addProgress" onclick="addProgress()" />   
+                </li>
+                <li>
+                    <input type="button" value="Check progress" name="checkProgress" onclick="checkProgress()" />
+                </li>
+                <li>
+                    <input type="button" value="Add Review" name="addReview" onclick="listAllGame(0)" />
+                </li>
+                <li>
                     <input type="button" value="Log out" name="logOut" onclick="logOut()" />
                 </li>
             </ul>
@@ -670,6 +679,10 @@ function makeGenderDisrubutionPlot(response){
 }
 
 function setupUserAside(){
+    if(localStorage.getItem("isAdmin") === "true"){
+        setupAdminAside();
+        return;
+    }
     document.getElementsByTagName("body")[0].innerHTML += `
         <aside id="userAside">
             <ul>
