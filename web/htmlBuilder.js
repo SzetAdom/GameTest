@@ -767,30 +767,35 @@ function checkProgress(){
                         </tr>                        
                     </thead>
                     <tbody>
-                        <tr id="progressID"">
-                            <td>Car game 3</td>
-                            <td>Lajos</td>
-                            <td>2021-04-11</td>
-                            <td>2021-05-01</td>
-                            <td>69</td>
-                        </tr>  
-                        <tr id="progressID" ">
-                            <td>Car game 4</td>
-                            <td>Lajos2</td>
-                            <td>2020-11-31</td>
-                            <td>2021-01-11</td>
-                            <td>420</td>
-                        </tr> 
                     </tbody>
                 </table>
             </div>
 
         </main>
-`;
-}
-
-function addReview(){
-    
+`;  var request = {"task" : "getAllStatisticsByUser", "id" : localStorage.getItem("id")};
+    $.ajax({        
+        url:"StatisticsController",
+        type:"POST",
+        data: request,
+        success: function(response){
+            for(var i=0; i<response.result.length;i++){
+                var result = response.result[i];
+                document.getElementsByTagName("tbody")[0].innerHTML += `
+                    <tr id="progressID"">
+                        <td>`+result[1]+`</td>
+                        <td>`+result[2]+`</td>
+                        <td>`+result[3]+`</td>
+                        <td>`+result[4]+`</td>
+                        <td>`+result[5]+`</td>
+                    </tr>
+                `;
+            }
+        },
+        error: function(response){
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    });
 }
 /*
 function listProgress(idIN){
@@ -891,7 +896,7 @@ function listAllGame(countIn){
                         <textarea id="commentIN" class="achievementsAdd" placeholder="Write a comment..."></textarea>
                     </li>
                     <li>
-                        <input type="button" value="Add" name="AddGame" onclick="alert('Itt majd elmentődik')" class="achievementsAdd"/>
+                        <input type="button" value="Add" name="AddGame" onclick="addReview()" class="achievementsAdd"/>
                     </li>
                     
                 </ul>
@@ -909,5 +914,29 @@ function listAllGame(countIn){
             console.log(response);
         }
     });
+}
+
+function addReview(){
+    if(document.getElementById("gamesIN") <= 0
+        || document.getElementById("scoreIN").value <= 0
+        || document.getElementById("commentIN").value.length < 3){
+        alert("Not enough input");
+    }
+    else{
+        var request = {"task" : "addReview", "gameId" : document.getElementById("gamesIN").value,"userId" : localStorage.getItem("id"), "score" : document.getElementById("scoreIN").value, "comment" : document.getElementById("commentIN").value};
+        $.ajax({
+            url:"ReviewController",
+            type:"POST",
+            data: request,
+            success: function(response){
+                alert("Succesful review registering");
+                checkProgress();
+            },
+            error: function(response){
+                alert("Problem with the data processing");
+                console.log(response);
+            }
+        });
+    }
 }
 

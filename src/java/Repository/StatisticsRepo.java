@@ -14,7 +14,7 @@ import javax.persistence.StoredProcedureQuery;
 
 public class StatisticsRepo {
 
-    public static List<Statistics> getAllStatisticsByUser(Integer id) {
+    public static List<Object[]> getAllStatisticsByUser(Integer id) {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("GameTestPU");
             EntityManager em = emf.createEntityManager();
@@ -29,7 +29,7 @@ public class StatisticsRepo {
                 List<Object[]> statisticsObjectList = spq.getResultList();
                 List<Statistics> statisticsList = new ArrayList<>();
 
-                for (Object[] statisticsObject : statisticsObjectList) {
+                /*for (Object[] statisticsObject : statisticsObjectList) {
                     Integer statisticsId = Integer.parseInt(statisticsObject[0].toString());
                     String gameName = statisticsObject[1].toString();
                     String userName = statisticsObject[2].toString();
@@ -54,12 +54,12 @@ public class StatisticsRepo {
                     System.out.println(1);
 
                     statisticsList.add(statistics);
-                }
+                }*/
 
                 em.close();
                 emf.close();
                 System.out.println("Statistics by user lekérdezve!");
-                return statisticsList;
+                return statisticsObjectList;
             } catch (Exception ex) {
                 em.close();
                 emf.close();
