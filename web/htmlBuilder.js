@@ -1,11 +1,9 @@
 function setup(){
     const isAdmin = localStorage.getItem("isAdmin");
-    if(isAdmin != null){
-        if(isAdmin){
-            localStorage.setItem("isAdmin", true)
+    if(isAdmin !== null){
+        if(isAdmin == "true"){
             callAdminPage(); 
         }else{
-            localStorage.setItem("isAdmin", false)
             callUserPage();
         }
     }
@@ -717,20 +715,18 @@ function addProgress(idIN){
                         <br/>
                     </li>
                     <li>
-                        <input type="button" value="Select" name="SelectGame" onclick="showLabel()" />
+                        <input type="button" value="Select" name="SelectGame" onclick="loadAchievementsForGame()" />
                     </li>
                     
-                    <li>
-                       <label class="achievementsAdd">Achievement: </label> 
-                        <select name="Achievements" class="achievementsAdd">
+                    <li >
+                       <label class="achievementsAdd" >Achievement: </label> 
+                        <select name="Achievements" class="achievementsAdd", id="achievementsOfGame">
                         <option disabled selected value> -- select an option -- </option>
-                        <option value="nagyongyors">Naagyon gyors</option>
-                        <option value="meggyorsabb">Méggyorsabb</option>
                         </select>
                         <br/>
                     </li>
                     <li>
-                        <input type="button" value="Add" name="AddGame" onclick="alert('Itt majd elmentődik')" class="achievementsAdd"/>
+                        <input type="button" value="Add" name="AddGame" onclick="saveAchievement()" class="achievementsAdd"/>
                     </li>
                     
                 </ul>

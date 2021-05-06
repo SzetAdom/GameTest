@@ -192,7 +192,46 @@ function showLabel(){
    var x = document.getElementsByClassName("achievementsAdd");
    var i;
     for (i = 0; i < x.length; i++) {
-    x[i].style.display = "inline";
+        x[i].style.display = "inline";
    
+    }
 }
+function loadAchievementsForGame(){
+    const gameId = document.getElementsByTagName("select")[0].value
+    const request = {"task" : "getAllAchievementByGame", "id": gameId};
+    $.ajax({
+        url:"AchievementController",
+        type:"GET",
+        data: request,
+        success: function(response){
+            const achievementsOfGame = document.querySelector("#achievementsOfGame")
+            response.result.forEach(function(achievement){
+                const select = document.createElement("option")
+                select.value = achievement.achievementId
+                select.textContent = achievement.descriptionOfAchievment
+                achievementsOfGame.append(select)
+            });
+            showLabel();
+        },
+        error: function(response){
+            alert("Database connection failed")
+        }
+    });
+    
+}
+function saveAchievement(){
+    const achievementsOfGame = document.querySelector("#achievementsOfGame")
+    const achievementId = achievementsOfGame.value;
+    const request = {"task" : "linkAchievementUser", "achiId": achievementId, "userId": localStorage.getItem("id")};
+    $.ajax({
+        url:"AchievementUserController",
+        type:"POST",
+        data: request,
+        success: function(response){
+            alert("Save successful")
+        },
+        error: function(response){
+            alert("Database connection failed")
+        }
+    });
 }
