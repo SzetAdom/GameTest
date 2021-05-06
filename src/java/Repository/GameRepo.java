@@ -215,13 +215,15 @@ public class GameRepo {
             EntityManager em = Database.getDbConn();
             try {
                 StoredProcedureQuery spq = em.createStoredProcedureQuery("gameUpdate");
-
+                
+                spq.registerStoredProcedureParameter("in_id", Integer.class, ParameterMode.IN);
                 spq.registerStoredProcedureParameter("in_name", String.class, ParameterMode.IN);
                 spq.registerStoredProcedureParameter("in_description", String.class, ParameterMode.IN);
                 spq.registerStoredProcedureParameter("in_dev", String.class, ParameterMode.IN);
                 spq.registerStoredProcedureParameter("in_release", Date.class, ParameterMode.IN);
                 spq.registerStoredProcedureParameter("in_price", Integer.class, ParameterMode.IN);
-
+                
+                spq.setParameter("in_id", game.getGameId());
                 spq.setParameter("in_name", game.getName());
                 spq.setParameter("in_description", game.getDescriptionOfGame());
                 spq.setParameter("in_dev", game.getDev());

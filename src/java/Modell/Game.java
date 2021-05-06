@@ -101,6 +101,15 @@ public class Game implements Serializable {
         this.price = price;
         this.genre = genre.getDescriptionOfGenre();
     }
+    
+    public Game(Integer gameId, String name, String description, String dev, java.sql.Date releaseDate, Integer price) {
+        this.gameId = gameId;
+        this.name = name;
+        this.descriptionOfGame = description;
+        this.dev = dev;
+        this.releaseDate = releaseDate;
+        this.price = price;
+    }
 
     public Integer getGameId() {
         return gameId;

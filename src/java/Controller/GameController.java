@@ -93,13 +93,14 @@ public class GameController extends HttpServlet {
                         && !request.getParameter("releaseDate").isEmpty()
                         && !request.getParameter("price").isEmpty()) {
                     try {
+                        Integer id = Integer.parseInt(request.getParameter("gameId"));
                         String name = request.getParameter("name");
                         String description = request.getParameter("description");
                         String dev = request.getParameter("dev");
                         Date releaseDate = Date.valueOf(request.getParameter("releaseDate"));
                         Integer price = Integer.parseInt(request.getParameter("price"));
 
-                        Game game = new Game(name, description, dev, releaseDate, price);
+                        Game game = new Game(id, name, description, dev, releaseDate, price);
                         Boolean serviceResult = GameService.updateGame(game);
                         result.put("result", serviceResult);
 
