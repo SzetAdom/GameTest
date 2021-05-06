@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="GameTestPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>Modell.Statistics</class>
+    <class>Modell.Game</class>
+    <class>Modell.AchievementType</class>
+    <class>Modell.Gender</class>
+    <class>Modell.Review</class>
+    <class>Modell.AchievementUser</class>
+    <class>Modell.Achievement</class>
+    <class>Modell.GameGenre</class>
+    <class>Modell.Genre</class>
+    <class>Modell.User</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://gametest.cysdrrilh8hn.us-east-2.rds.amazonaws.com:3306/gametest?useSSL=false"/>
+      <property name="javax.persistence.jdbc.user" value="gametest"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="gametest123!"/>
+    </properties>
+  </persistence-unit>
+</persistence>
