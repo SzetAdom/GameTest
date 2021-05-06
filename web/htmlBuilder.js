@@ -491,7 +491,7 @@ function setupAddAchievement(idIN){
             <li>
                 <label>Description: </label>
                 <br/>
-                <textarea id="descIN"  name="desc" placeholder="A small description of the game"/></textarea>
+                <textarea id="descIN"  name="desc" placeholder="A small description of the achievement"/></textarea>
 
             </li>
             <li>
