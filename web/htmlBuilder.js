@@ -731,7 +731,7 @@ function addProgress(idIN){
                         <input type="button" value="Select" name="SelectGame" onclick="loadAchievementsForGame()" />
                     </li>
                     
-                    <li >
+                    <li>
                        <label class="achievementsAdd" >Achievement: </label> 
                         <select name="Achievements" class="achievementsAdd", id="achievementsOfGame">
                         <option disabled selected value> -- select an option -- </option>
@@ -740,6 +740,17 @@ function addProgress(idIN){
                     </li>
                     <li>
                         <input type="button" value="Add" name="AddGame" onclick="saveAchievement()" class="achievementsAdd"/>
+                    </li>
+                    
+                    <li>
+                       <label class="progressAdd" >Progress: </label> 
+                        <select name="Achievements" class="progressAdd" id="achievementsOfGame">
+                        <option disabled selected value> -- select an option -- </option>
+                        </select>
+                        <br/>
+                    </li>
+                    <li>
+                        <input type="button" value="Add" name="AddGame" onclick="saveProgress()" class="progressAdd"/>
                     </li>
                     
                 </ul>

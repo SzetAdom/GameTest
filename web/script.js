@@ -189,11 +189,13 @@ function clearLocalStorage(){
 }
 function showLabel(){
     
-   var x = document.getElementsByClassName("achievementsAdd");
-   var i;
-    for (i = 0; i < x.length; i++) {
+    var x = document.getElementsByClassName("achievementsAdd");
+    for (let i = 0; i < x.length; i++) {
         x[i].style.display = "inline";
-   
+    }
+    x = document.getElementsByClassName("progressAdd");
+    for (let i = 0; i < x.length; i++) {
+        x[i].style.display = "inline";
     }
 }
 function loadAchievementsForGame(){
