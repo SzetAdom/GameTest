@@ -264,3 +264,27 @@ table{
 .progressAdd{
     display: none; 
 }
+
+/* Update game*/
+#updateGame{
+    text-align: center;
+}
+#updateGame ul{
+    margin-left: calc( (100% - 400px) / 2 );
+    margin-top: 100px;
+    list-style-type: none;
+    padding: 0;
+    width: 400px;
+}
+#updateGame li{
+    text-align: center;
+    padding: 2px;
+}
+#updateGame h2{
+    text-align: center;
+    width: 100%;
+    margin-top: 180px;
+}
+#updateGame label{    
+    width: 50px; 
+}
