@@ -1,23 +1,19 @@
 package Repository;
 
 import Modell.Database;
-import Modell.Game;
 import Modell.Statistics;
-import Modell.User;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.ParameterMode;
-import javax.persistence.Persistence;
 import javax.persistence.StoredProcedureQuery;
 
 public class StatisticsRepo {
 
     public static List<Object[]> getAllStatisticsByUser(Integer id) {
         try {
-            
+
             EntityManager em = Database.getDbConn();
 
             try {
@@ -56,20 +52,61 @@ public class StatisticsRepo {
 
                     statisticsList.add(statistics);
                 }*/
-
                 em.close();
-                
+
                 System.out.println("Statistics by user lekérdezve!");
                 return statisticsObjectList;
             } catch (Exception ex) {
                 em.close();
-                
-                System.out.println("getAllAchievementByUser hiba! - " + ex.getMessage());
+
+                System.out.println("getAllStatisticsByUser hiba! - " + ex.getMessage());
                 return null;
             }
         } catch (Exception e) {
             System.out.println("Database connection hiba! - " + e.getMessage());
             return null;
         }
+    }
+
+    public static boolean addStatistics(Statistics statistics) {
+        try {
+
+            EntityManager em = Database.getDbConn();
+
+            try {
+                StoredProcedureQuery spq = em.createStoredProcedureQuery("StatisticsCreate");
+
+                spq.registerStoredProcedureParameter("in_first", Date.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_last", Date.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_minutes", Integer.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_user_id", Integer.class, ParameterMode.IN);
+                spq.registerStoredProcedureParameter("in_game_id", Integer.class, ParameterMode.IN);
+
+                spq.setParameter("in_first", statistics.getFirstPlayed());
+                spq.setParameter("in_last", statistics.getLastPlayed());
+                spq.setParameter("in_minutes", statistics.getPlayedMinutes());
+                spq.setParameter("in_user_id", statistics.getUserId().getUserId());
+                spq.setParameter("in_game_id", statistics.getGameId().getGameId());
+
+                spq.execute();
+
+                em.close();
+
+                System.out.println("Statistics sikeresen hozzáadva!");
+                return true;
+
+            } catch (Exception ex) {
+
+                em.close();
+
+                System.out.println("addStatistics Hiba! - " + ex.getMessage());
+                return false;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Database connection hiba! - " + e.getMessage());
+            return false;
+        }
+
     }
 }

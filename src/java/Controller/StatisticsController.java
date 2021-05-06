@@ -5,10 +5,13 @@
  */
 package Controller;
 
+import Modell.Game;
 import Modell.Statistics;
+import Modell.User;
 import Service.StatisticsService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,6 +36,37 @@ public class StatisticsController extends HttpServlet {
 
                         List<Object[]> serviceResult = StatisticsService.getAllStatisticsByUser(id);
 
+                        result.put("result", serviceResult);
+
+                    } catch (Exception e) {
+                        System.out.println("Hiba a JSON adatok beolvasásakor!");
+                    }
+
+                } else {
+                    result.put("result", "A mezők nincsenek megfelelően kitöltve");
+                }
+                out.println(result);
+            }
+
+            if (request.getParameter("task").equals("addStatistics")) {
+                JSONObject result = new JSONObject();
+                if (!request.getParameter("firstPlayed").isEmpty()
+                        && !request.getParameter("lastPlayed").isEmpty()
+                        && !request.getParameter("minutes").isEmpty()
+                        && !request.getParameter("gameId").isEmpty()
+                        && !request.getParameter("userId").isEmpty()) {
+                    try {
+                        Date firstPlayed = Date.valueOf(request.getParameter("firstPlayed"));
+                        Date lastPlayed = Date.valueOf(request.getParameter("lastPlayed"));
+                        Integer minutes = Integer.parseInt(request.getParameter("minutes"));
+                        Integer gameId = Integer.parseInt(request.getParameter("gameId"));
+                        Integer userId = Integer.parseInt(request.getParameter("userId"));
+
+                        User user = new User(userId);
+                        Game game = new Game(gameId);
+
+                        Statistics statistics = new Statistics(0, game, user, firstPlayed, lastPlayed, minutes);
+                        Boolean serviceResult = StatisticsService.addStatistics(statistics);
                         result.put("result", serviceResult);
 
                     } catch (Exception e) {
