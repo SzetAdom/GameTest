@@ -240,3 +240,19 @@ function saveAchievement(){
         }
     });
 }
+function saveProgress(){
+    const minutesIN = document.querySelector("#minutesIN").value;
+    const gameId = document.querySelector("#games").value;
+    const request = {"task" : "addStatistics", "gameId": gameId, "userId": localStorage.getItem("id"), "minutes": minutesIN};
+    $.ajax({
+        url:"StatisticsController",
+        type:"POST",
+        data: request,
+        success: function(response){
+            alert("Save successful")
+        },
+        error: function(response){
+            alert("Database connection failed")
+        }
+    });
+}

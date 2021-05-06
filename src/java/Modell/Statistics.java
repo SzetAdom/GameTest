@@ -76,6 +76,11 @@ public class Statistics implements Serializable {
         this.lastPlayed = lastPlayed;
         this.playedMinutes = minutes;
     }
+    public Statistics(Game game, User user, Integer minutes) {
+        this.gameId = game;
+        this.userId = user;
+        this.playedMinutes = minutes;
+    }
 
     public Integer getStatisticsId() {
         return statisticsId;

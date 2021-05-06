@@ -827,10 +827,9 @@ function addProgress(idIN){
                     </li>
                     
                     <li>
-                       <label class="progressAdd" >Progress: </label> 
-                        <select name="Achievements" class="progressAdd" id="achievementsOfGame">
-                        <option disabled selected value> -- select an option -- </option>
-                        </select>
+
+                        <label class="progressAdd" id="devLBL">Minutes played: </label>
+                        <input id="minutesIN" type="number" min="0" name="Minutes played" value="" class="progressAdd"/>
                         <br/>
                     </li>
                     <li>

@@ -50,14 +50,10 @@ public class StatisticsController extends HttpServlet {
 
             if (request.getParameter("task").equals("addStatistics")) {
                 JSONObject result = new JSONObject();
-                if (!request.getParameter("firstPlayed").isEmpty()
-                        && !request.getParameter("lastPlayed").isEmpty()
-                        && !request.getParameter("minutes").isEmpty()
+                if (!request.getParameter("minutes").isEmpty()
                         && !request.getParameter("gameId").isEmpty()
                         && !request.getParameter("userId").isEmpty()) {
                     try {
-                        Date firstPlayed = Date.valueOf(request.getParameter("firstPlayed"));
-                        Date lastPlayed = Date.valueOf(request.getParameter("lastPlayed"));
                         Integer minutes = Integer.parseInt(request.getParameter("minutes"));
                         Integer gameId = Integer.parseInt(request.getParameter("gameId"));
                         Integer userId = Integer.parseInt(request.getParameter("userId"));
@@ -65,7 +61,7 @@ public class StatisticsController extends HttpServlet {
                         User user = new User(userId);
                         Game game = new Game(gameId);
 
-                        Statistics statistics = new Statistics(0, game, user, firstPlayed, lastPlayed, minutes);
+                        Statistics statistics = new Statistics(game, user, minutes);
                         Boolean serviceResult = StatisticsService.addStatistics(statistics);
                         result.put("result", serviceResult);
 
