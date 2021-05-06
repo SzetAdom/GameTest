@@ -11,4 +11,10 @@ public class StatisticsService {
         System.out.println("getAllStatisticsByUser");
         return StatisticsRepo.getAllStatisticsByUser(id);
     }
+
+    public static Boolean addStatistics(Statistics statistics) {
+        System.out.println("------------------------");
+        System.out.println("addStatistics");
+        return StatisticsRepo.addStatistics(statistics);
+    }
 }
