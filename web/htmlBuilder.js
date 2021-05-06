@@ -682,6 +682,9 @@ function setupUserAside(){
                     <input type="button" value="Check progress" name="checkProgress" onclick="checkProgress()" />
                 </li>
                 <li>
+                    <input type="button" value="Add Review" name="addReview" onclick="listAllGame(0)" />
+                </li>
+                <li>
                     <input type="button" value="Log out" name="logOut" onclick="logOut()" />
                 </li>
             </ul>
@@ -689,10 +692,18 @@ function setupUserAside(){
         
 }
 
-function addProgress(){
+function addProgress(idIN){
     clearContent();
     setupUserAside();
-    document.getElementsByTagName("body")[0].innerHTML += `
+    var request = {"task" : "getAllGame"};
+    $.ajax({
+        url:"GameController",
+        type:"POST",
+        data: request,
+        success: function(response){
+           // max = response.result.length;
+            //if(count > response.result.length - 10) count = response.result.length-10;
+            document.getElementsByTagName("body")[0].innerHTML += `
          <main class='adminMain'>
             <div id="newGame">
                 <h2>Add progress to the desired game</h2>
@@ -701,8 +712,7 @@ function addProgress(){
                         <label>Game: </label> 
                         <select name="games" id="games">
                         <option disabled selected value> -- select an option -- </option>
-                        <option value="cargame2">Car Game 3</option>
-                        <option value="cargame3">Car Game 4</option>
+                        
                         </select>
                         <br/>
                     </li>
@@ -727,11 +737,24 @@ function addProgress(){
             </div>
         </main>
 `;
+            for(var i = 0; i<response.result.length; i++){
+                document.getElementsByTagName("select")[0].innerHTML += 
+                `<option value="`+response.result[i].gameId+`">`+response.result[i].name+`</option>
+                
+                `;
+            }
+        },
+        error: function(response){
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    }); 
 }
 
 function checkProgress(){
     clearContent();
     setupUserAside();
+    
     document.getElementsByTagName("body")[0].innerHTML += `
         <main class="userMain">
 
@@ -768,5 +791,127 @@ function checkProgress(){
 
         </main>
 `;
+}
+
+function addReview(){
+    
+}
+/*
+function listProgress(idIN){
+    
+    clearContent();
+    setupAdminAside();
+    var max=0;
+    var request = {"task" : "statisticsListbyUser", "id":idIN};
+    $.ajax({
+        url:"StatisticsController",
+        type:"POST",
+        data: request,
+        success: function(response){
+            max = response.result.length;
+            if(count > response.result.length - 10) count = response.result.length-10;
+            document.getElementsByTagName("body")[0].innerHTML += `
+                <main class="adminMain">            
+                    <div id="chooseGame" count="`+count+`" max="`+max+`"   >
+                        <h2>Choose a game to check out its global statistics</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td>Title</td>
+                                    <td>Developer</td>
+                                    <td>Release Date</td>
+                                    <td>Price</td>
+                                </tr>                        
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <input type="button" id="last" onclick="chooseGame(`+(count-10)+`)" value="Previous 10"/>
+                        <input type="button" id="next" onclick="chooseGame(`+(count+10)+`)" value="Next 10"/>
+                    </div>
+                </main>`;
+            for(var i = count; i<count + 10; i++){
+                document.getElementsByTagName("tbody")[0].innerHTML += 
+                `<tr id="" onclick="">
+                    <td>` + response.result[i].gameName + `</td>
+                    <td>` + response.result[i].userName + `</td>
+                    <td>` + response.result[i].firstPlayed + `</td>
+                    <td>` + response.result[i].lastPlayed + `</td>
+                    <td>` + response.result[i].minutes + `</td>
+                </tr>`;
+            }
+        },
+        error: function(response){
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    });
+}
+*/
+function listAllGame(countIn){
+    if(countIn < 0) var count = 0;
+    else var count = countIn;
+    //var max = 0;
+    clearContent();
+    setupUserAside();
+    var request = {"task" : "getAllGame"};
+    $.ajax({
+        url:"GameController",
+        type:"POST",
+        data: request,
+        success: function(response){
+           // max = response.result.length;
+            //if(count > response.result.length - 10) count = response.result.length-10;
+            document.getElementsByTagName("body")[0].innerHTML += `
+                <main class='adminMain'>
+            <div id="newGame">
+                <h2>Add an ovearll review to the desired game</h2>
+                <ul>
+                    <li>
+                        <label>Game: </label> 
+                        <select name="gamesIN" id="gamesIN">
+                        <option disabled selected value> -- select an option -- </option>
+                        
+                        </select>
+                        <br/>
+                    </li>
+                    <li>
+                        <input type="button" value="Select" name="SelectGame" onclick="showLabel()" />
+                    </li>
+                    
+                    <li>
+                       <label class="achievementsAdd">Review: </label> 
+                        <select id="scoreIN" name="Review" class="achievementsAdd">
+                        <option disabled selected value> -- select an option -- </option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        </select>
+                        <br/>
+                    </li>
+                    <li>
+                        <textarea id="commentIN" class="achievementsAdd" placeholder="Write a comment..."></textarea>
+                    </li>
+                    <li>
+                        <input type="button" value="Add" name="AddGame" onclick="alert('Itt majd elmentődik')" class="achievementsAdd"/>
+                    </li>
+                    
+                </ul>
+            </div>
+        </main>`;
+            for(var i = count; i<response.result.length; i++){
+                document.getElementsByTagName("select")[0].innerHTML += 
+                `<option value="`+response.result[i].gameId+`">`+response.result[i].name+`</option>
+                
+                `;
+            }
+        },
+        error: function(response){
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    });
 }
 
