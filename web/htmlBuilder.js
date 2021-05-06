@@ -318,7 +318,7 @@ function choosenGame(idIN){
                     </ul>
                 </div>
                 <div id="choosenRight">
-                    <!--<input type="button" id="updateGame" value="Update the elements of the game" onclick="alert('TODO')"/>-->
+                    <input type="button" id="updateGame" value="Update the elements of the game" onclick="updateGame(`+idIN+`)"/>
                     <input type="button" id="addAchi" value="Add a new achievement" onclick="setupAddAchievement(`+idIN+`)"/>
                     <input type="button" id="deleteGame" value="Delete game" onclick="deleteGame(`+idIN+`)"/>
                 </div>
@@ -373,6 +373,90 @@ function choosenGame(idIN){
                 
                  
             }
+        },
+        error: function(response){            
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    });
+}
+function updateGame(idIN){
+    clearContent();
+    setupAdminAside();
+    document.getElementsByTagName("body")[0].innerHTML += `
+        <main class='adminMain'>
+            <div id="updateGame">
+                <h2>Register the new datas to the database</h2>
+                <ul>
+                    <li>
+                        <label>Name: </label>
+                        <input id="nameIN" type="text" name="name" value="" />
+                        <br/>
+                    </li>
+                    <li>
+                        <label>Description: </label>
+                        <br/>
+                        <textarea id="descIN"  name="desc" placeholder="A small description of the game"/></textarea>
+                    
+                    </li>
+                    <li>
+                        <label id="devLBL">Developer: </label>
+                        <input id="devIN" type="text" name="dev" value="" />
+                    </li>
+                    <li>
+                        <label>Release date: </label>
+                        <input id="dateIN" type="date" name="date" value="" />
+                    </li>
+                    <li>
+                        <label>Price: </label>
+                        <input id="priceIN" type="number" name="price" value="60" min="0" max="120"/>
+                    </li>
+                    <li>
+                        <input type="button" value="Register the new game" name="updateGame" onclick="updateTheGame(`+idIN+`)" />
+                    </li>
+                </ul>
+            </div>
+        </main>
+    `;
+    var request = {"task" : "getGame", "id" : idIN};
+    $.ajax({
+        url:"GameController",
+        type:"POST",
+        data: request,
+        success: function(response){
+            response = response.result.split("[",2);
+            response = response[1].split(", ",8);
+            console.log(response);
+            document.getElementById("nameIN").value = response[1];
+            document.getElementById("dateIN").value = response[4];
+            document.getElementById("descIN").value = response[2];
+            document.getElementById("devIN").value = response[3];
+            document.getElementById("priceIN").value = response[5];
+        },
+        error: function(response){            
+            alert("Problem with the data processing");
+            console.log(response);
+        }
+    });
+}
+function updateTheGame(idIN){
+    var request = {"task" : "updateGame", "gameId" : idIN, "description" : document.getElementById("descIN").value,
+        "dev" : document.getElementById("devIN").value, "releaseDate" : document.getElementById("dateIN").value,
+        "price" : document.getElementById("priceIN").value, "name" : document.getElementById("nameIN").value};
+    console.log(request);
+    $.ajax({
+        url:"GameController",
+        type:"POST",
+        data: request,
+        success: function(response){
+          if(response.result === true){
+                alert("Succesful updating");
+                chooseGame(0);
+          }
+          else{
+              alert("Unsuccesful updating");
+                chooseGame(0);
+          }
         },
         error: function(response){            
             alert("Problem with the data processing");
