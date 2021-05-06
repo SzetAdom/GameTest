@@ -31,7 +31,7 @@ public class StatisticsController extends HttpServlet {
                     try {
                         Integer id = Integer.parseInt(request.getParameter("id"));
 
-                        List<Statistics> serviceResult = StatisticsService.getAllStatisticsByUser(id);
+                        List<Object[]> serviceResult = StatisticsService.getAllStatisticsByUser(id);
 
                         result.put("result", serviceResult);
 
